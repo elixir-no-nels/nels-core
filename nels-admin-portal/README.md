@@ -1,13 +1,13 @@
-1. Introduction
-===
+# 1. Introduction
+
 This is the administration protal for NeLS
 
-2. Get the code
-===
+# 2. Get the code
+
 If you are reading this, you are already there 
 
-3. Initialize build environment
-===
+# 3. Initialize build environment
+
 install package builders and tasks managers
 
 ### 3.1. install nodejs and npm
@@ -18,7 +18,7 @@ sudo apt-get install npm
 * for MAC OS:<br/>
 brew install nodejs<br/>
 brew install npm
-###3.2. initialize project  & install build essentials
+### 3.2. initialize project  & install build essentials
 * cd nels-admin-portal folder
 * npm init
 * npm install --save  event-stream gulp gulp-html-replace gulp-concat gulp-ng-annotate gulp-uglify-es gulp-angular-templatecache gulp-autoprefixer gulp-csso gulp-string-replace
@@ -29,8 +29,8 @@ brew install npm
 * for prod: rm -rf dist/ && gulp build-prod <br/>
 _**Note: you can optionally put these in .sh files for one go invocation**_
 
-##5. Configure Webserver
-###5.1. Configure proxy for NeLS API
+## 5. Configure Webserver
+### 5.1. Configure proxy for NeLS API
 * for apache 
         
         #nels api proxy
