@@ -12,12 +12,12 @@ mvn package
 Dependencies
 ===
 
-##NeLS component dependency
+## NeLS component dependency
 
 
 * nels.vertx.commons
 
-##Third party dependencies
+## Third party dependencies
 
 see the pom.xml
 
