@@ -13,13 +13,13 @@ mvn clean package
 Dependencies
 ===
 
-##NeLS component dependency
+## NeLS component dependency
 
 * nels.vertx.commons
 * nels.commons
 * nels.client
 
-##Third party dependencies
+## Third party dependencies
 
 see the pom.xml
 
