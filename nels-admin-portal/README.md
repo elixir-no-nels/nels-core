@@ -1,8 +1,12 @@
-Introduction
+1. Introduction
 ===
 This is the administration protal for NeLS
 
-Initialize build environment
+2. Get the code
+===
+If you are reading this, you are already there 
+
+3. Initialize build environment
 ===
 install package builders and tasks managers
 
