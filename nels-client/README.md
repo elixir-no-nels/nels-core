@@ -7,17 +7,17 @@ And it is one of dependencies nels portal needs.
 How to build
 ===
 
-mvn install
+mvn clean install
 
 Dependencies
 ===
 
-##NeLS component dependency
+## NeLS component dependency
 
 
 * nels.commons
 * nels.vertx.commons
 
-##Third party dependencies
+## Third party dependencies
 
 see the pom.xml
