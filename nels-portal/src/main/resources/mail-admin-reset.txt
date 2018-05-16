@@ -1,0 +1,11 @@
+Dear ?fullName,
+You are receiving this e-mail as being a user in the portal of the Norwegian e-Infrastructure for Life Sciences(NeLS) Identity Provider.
+
+Your password has been reset by the administrator. Please click on the link below to set a new password.
+
+Reset Link: ?resetLinkUrl
+
+
++  +  +
+NeLS - Norwegian eInfrastructure for Life Sciences
+?webappUrl

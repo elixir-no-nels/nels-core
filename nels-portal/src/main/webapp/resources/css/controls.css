@@ -1,0 +1,267 @@
+.button
+{
+	margin: 5px 10px 2px 0px;
+	border:none;
+	border-radius:3px;
+	text-decoration:none;
+	color: #29598E;
+	font-weight:bold;
+	padding:6px 6px 6px 23px;
+	font-family: Arial,Verdana,sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    cursor:pointer;
+    background-image:url(#{resource['images/action.png']}) ;
+	background-color:#EFEFEF;
+	background-position:5px center;
+	background-repeat:no-repeat;
+	text-align:left;
+}
+
+.button:hover
+{
+	color:#fff;
+	background-color: #175D91;
+}
+
+.button-no-image
+{
+	padding:15px;
+	background-image:none;
+	background-color:#29598E;
+	color:#fff;
+}
+.button-no-image:hover{
+	background-color:#960014;
+}
+
+.no-bg-color
+{
+	background-color:transparent;
+}
+
+.button-pressed{
+	background-color:#960014;
+}
+
+
+.button-link,a.button-link, a.button-link:visited 
+{
+	background-color: transparent;
+    background-image: none;
+    border: medium none;
+    color: #960014;
+    padding: 0;
+    cursor:pointer;
+    font-size: 13px;
+    font-weight: normal;
+    text-decoration:none;
+    border-bottom:1px dotted transparent;
+}
+a.button-link, a.button-link:visited  /*compensate to the button/anchor behaviour difference*/
+{
+	padding-left:3px;
+}
+.button-link:hover,a.button-link:hover{
+	border-bottom:1px dotted #960014;
+}
+
+.button-link-image,a.button-link-image, a.button-link-image:visited 
+{
+	padding-left:20px;
+	background-repeat:no-repeat;
+	background-color: transparent;
+    border: medium none;
+    color: #960014;
+    padding: 0;
+    padding-left:20px;
+    cursor:pointer;
+    font-size: 13px;
+    font-weight: normal;
+    text-decoration:none;
+    border-bottom:1px dotted transparent;
+}
+
+.button-save{
+	background-image:url(#{resource['images/save.png']}) ;
+  }
+
+.button-download{
+	background-image:url(#{resource['images/download.png']}) ;
+}
+
+.button-view{
+	background-image:url(#{resource['images/view.png']}) ;
+}
+
+.button-new{
+	background-image:url(#{resource['images/add.png']}) ;
+}
+
+.button-edit{
+	background-image:url(#{resource['images/edit.png']}) ;
+}
+
+.button-cancel{
+	background-image:url(#{resource['images/cancel.png']}) ;
+}
+
+.button-delete{
+	background-image:url(#{resource['images/delete.png']}) ;
+}
+
+.button-upload{
+	background-image:url(#{resource['images/upload.png']}) ;
+}
+
+.button-copy{
+	background-image:url(#{resource['images/copy.png']}) ;
+}
+
+.button-cut{
+	background-image:url(#{resource['images/cut.png']}) ;
+}
+
+.button-paste{
+	background-image:url(#{resource['images/paste.png']}) ;
+}
+
+.button-search{
+	background-image:url(#{resource['images/search.png']}) ;
+}
+
+.button-refresh{
+	background-image:url(#{resource['images/refresh.gif']}) ;
+}
+
+.button-info{
+	background-image:url(#{resource['images/info.png']}) ;
+}
+
+.button-disabled, .button-disabled:hover{
+	background-color:#efefef;
+	color:#999;
+	cursor: default;
+}
+
+.cut-item{
+	opacity:0.3;
+}
+
+
+/*data grid things*/
+.ui-datatable .ui-selection-column .ui-chkbox-all {
+    float: left;
+}
+
+.tick-list li {
+    background-image: url(#{resource['images/action.png']});
+    background-position: 3px center;
+    background-repeat: no-repeat;
+    line-height: 2;
+    list-style-type: none;
+    padding-left: 25px;
+    padding-top: 0;
+    border-bottom: 1px dashed #777777;
+}
+
+.simple-list li {
+    background:none;
+    line-height: 2;
+    list-style-type: none;
+    margin-left:-30px;
+    padding:0px;
+    border-bottom: 1px dashed #777777;
+}
+
+.galaxy{
+	background-image:url(#{resource['images/galaxy.png']}) ;
+}
+.edit{
+	background-image:url(#{resource['images/edit.png']}) ;
+}
+.rename{
+	background-image:url(#{resource['images/rename.png']}) ;
+}
+.file{
+	background-image:url(#{resource['images/file.png']}) ;
+}
+.file-no-link{
+	background-image:url(#{resource['images/file.png']}) ;
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+.file-new{
+	background-image:url(#{resource['images/file-new.png']}) ;
+}
+.dataset-add{
+	background-image:url(#{resource['images/dataset_add.png']}) ;
+}
+.folder{
+	background-image:url(#{resource['images/folder.png']}) ;
+}
+.folder-new{
+	background-image:url(#{resource['images/folder-new.png']}) ;
+}
+
+.project{
+	background-image:url(#{resource['images/project.png']}) ;
+}
+
+.pdf{
+	background-image:url(#{resource['images/pdf.png']}) ;
+}
+
+.doc, .docx, .rtf{
+	background-image:url(#{resource['images/word.png']}) ;
+}
+
+.xsl, .xlsx{
+	background-image:url(#{resource['images/excel.png']}) ;
+}
+
+.txt{
+	background-image:url(#{resource['images/text.png']}) ;
+}
+
+.file-download{
+	background-image:url(#{resource['images/download.png']}) ;
+}
+.folder-download{
+	background-image:url(#{resource['images/zip.png']}) ;
+}
+
+.group{
+	background-image:url(#{resource['images/group.png']}) ;
+}
+
+#header-and-borderless table thead tr {
+    display: none;
+}
+
+/*#header-and-borderless table thead tbody {
+    border-style: none;
+}*/	
+
+#header-and-borderless .ui-datatable table, .ui-datatable-data {
+    border-style: none;
+}
+
+.nameField {
+    text-align: left;
+    padding: 5px 5px 5px 5px;
+    font-size: 14px;
+    width: 100px;
+    font-weight: bold;
+}
+
+.valueField {
+    text-align: left;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.extra-info {
+	color: #777;
+	font-size: 11px;
+}

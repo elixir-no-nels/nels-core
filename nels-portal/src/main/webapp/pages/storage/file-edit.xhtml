@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_storage_file_edit.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <div style="padding-bottom: 5px;">
+            Parent folder : <span class="button-link-image folder">#{pages_storage_file_edit.getParentFolderUI()}</span>
+        </div>
+        <div class="box-header">File details</div>
+        <div class="box-body">
+            <div id="progress" class="hidden-progress">Please wait . . .
+            </div>
+            <script>
+				function showProgressBar(){
+					$("#progress").removeClass("hidden-progress");
+					$("#progress").addClass("visible-progress");
+				}
+
+            </script>
+            <h:form enctype="multipart/form-data">
+                <p:fileUpload value="#{pages_storage_file_edit.file}" mode="simple"/>
+                <br/>
+                <span style="color:#75B0EA;font-size:12px;padding-left:3px;font-weight:bold;">CAUTION: Uploading a file with the same name will
+					overwrite the previous file.</span>
+                <br/>
+                <h:commandButton value="Upload" ajax="false"
+                                 actionListener="#{pages_storage_file_edit.upload}"
+                                 styleClass="button button-upload"
+                                 onclick="showProgressBar()"/>
+                <h:commandButton value="Cancel" styleClass="button button-cancel"
+                                 action="#{pages_storage_file_edit.cmdCancel_Click}"/>
+            </h:form>
+
+
+        </div>
+    </ui:define>
+
+</ui:composition>

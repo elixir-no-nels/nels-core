@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>no.nels</groupId>
+	<artifactId>nels.client</artifactId>
+	<packaging>jar</packaging>
+	<version>2.0</version>
+
+	<name>NeLS Storage Proxy</name>
+	<url>https://nels.bioinfo.no</url>
+
+	<properties>
+		<cxf.version>2.2.3</cxf.version>
+		<jersey.version>2.22.1</jersey.version>
+		<jackson.version>1.9.13</jackson.version>
+		<!-- nels jars -->
+		<nels.commons-version>1.0</nels.commons-version>
+		<nels.vertx.commons-version>1.0</nels.vertx.commons-version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>apache</id>
+			<name>apache repo1</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<!-- http://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.6.2</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+
+		<!-- nels dependencies -->
+		<dependency>
+			<groupId>no.nels</groupId>
+			<artifactId>nels.vertx.commons</artifactId>
+			<version>${nels.vertx.commons-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>no.nels</groupId>
+			<artifactId>nels.commons</artifactId>
+			<version>${nels.commons-version}</version>
+		</dependency>
+	</dependencies>
+</project>

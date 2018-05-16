@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/pages/template/nels-base.xhtml">
+
+    <ui:define name="above-header">
+        <h:form rendered="#{session_userSessionBean.currentUser ne null}">
+            <div id="login-details">
+                Logged in as:
+                #{session_userSessionBean.currentUser.idpUser.firstname}
+                #{session_userSessionBean.currentUser.idpUser.lastname} (NeLS ID :
+                #{session_userSessionBean.currentUser.id})
+                <h:outputLink
+                        value="#{facesContext.externalContext.context.contextPath}/saml/logout"
+                        rendered="#{not session_userSessionBean.isFromGalaxy()}">Logout</h:outputLink>
+
+                | <h:outputLink
+                    value="#{facesContext.externalContext.context.contextPath}/pages/user-terms.xhtml"
+                    rendered="#{not session_userSessionBean.isFromGalaxy()}">Terms of Usage</h:outputLink>
+
+            </div>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="header">
+        <div class="logo-box">
+            <h:panelGroup>
+                <h1>NeLS</h1>
+
+                <p>
+                    <span style="color: red; font-weight: bold;">N</span>orwegian <span
+                        style="color: red; font-weight: bold;">e</span>-Infratructure for
+                    <span style="color: red; font-weight: bold;">L</span>ife <span
+                        style="color: red; font-weight: bold;">S</span>ciences
+                </p>
+            </h:panelGroup>
+
+        </div>
+        <div style="padding-top: 25px; margin-left: 300px;">
+            <ul class="menu">
+                <li><a
+                        href="#{session_userSessionBean.getApplicationRoot()}/pages/login.xhtml">Home</a>
+                </li>
+                <li>
+                    <h:outputLink value="#{session_userSessionBean.getNeLSIdpUserMyDetailLink()}"
+                                  rendered="#{session_userSessionBean.isNeLSIdpUser() and not session_userSessionBean.isFromGalaxy()}">My Details</h:outputLink>
+                </li>
+                <li><h:outputLink
+                        value="#{session_userSessionBean.getApplicationRoot()}/pages/helpdesk-home.xhtml?mode=process"
+                        rendered="#{(session_userSessionBean.isHelpDesk() or session_userSessionBean.isAdministrator() ) and false }">Browse Users' Data (Help Desk)</h:outputLink>
+
+                </li>
+                <li><h:outputLink
+                        value="#{session_userSessionBean.getApplicationRoot()}/pages/admin-home.xhtml"
+                        rendered="#{(session_userSessionBean.isAdministrator() or session_userSessionBean.isHelpDesk()) and not session_userSessionBean.isFromGalaxy()}">Administration</h:outputLink>
+                </li>
+            </ul>
+        </div>
+    </ui:define>
+</ui:composition>

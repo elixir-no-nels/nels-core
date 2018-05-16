@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_admin_home.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <script type="text/javascript">
+            function backFromPopUp() {
+                window.open('#{pages_admin_home.getReferrerUrl()}', target = "_self");
+            }
+        </script>
+        <h:form id="pages_admin_home_form">
+
+            <table class="full-width">
+                <tr>
+                    <td class="left-menu">
+                        <h2>Menu</h2>
+
+                        <div class="menu-group-header">Identity Users</div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h:commandButton
+                                            value="New"
+                                            styleClass="button-link-image button-new"
+                                            action="#{pages_admin_home.cmdCreateIdpUser_Click('backFromPopUp()')}"/>
+
+                                </td>
+                                <td>
+                                    <h:commandButton
+                                            value="#{pages_admin_home.getViewIdpUsersLabel()}"
+                                            styleClass="button-link-image button-view"
+                                            action="#{pages_admin_home.cmdViewIdpUsers_Click('backFromPopUp()')}"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="menu-group-header">Registered Users (NeLS + FEiDE)</div>
+                        <div>
+                            <table>
+                                <tr>
+                                    <td><h:commandButton
+                                            value="#{pages_admin_home.getViewFeideUsersLabel()}"
+                                            styleClass="button-link-image button-view"
+                                            action="#{pages_admin_home.cmdViewFeideUsers_Click('')}"/></td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                        <div class="menu-group-header">Projects
+                        </div>
+                        <table>
+                            <tr>
+                                <td><h:commandButton
+                                        value="New"
+                                        styleClass="button-link-image button-new"
+                                        action="#{pages_admin_home.cmdCreateProject_Click('backFromPopUp()')}"/></td>
+                                <td><h:commandButton
+                                        value="#{pages_admin_home.getViewProjectsLabel()}"
+                                        styleClass="button-link-image button-view"
+                                        action="#{pages_admin_home.cmdViewProjects_Click('backFromPopUp()')}"/></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                    <td valign="top">
+                        <div class="box-header">NeLS Identity Requests</div>
+                        <div class="box-body">
+                            <span class="extra-info">
+
+
+
+
+                                No registration requests found
+
+                                        </span>
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_idp_nels_idpuser_view.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="idUserViewForm">
+            <table class="full-width">
+                <tr>
+                    <td class="left-menu" valign="top">
+
+                        <h2>Menu</h2>
+
+                        <div class="menu-group-header">Password</div>
+                        <table>
+
+                            <tr>
+                                <td>
+                                    <h:commandButton value="Edit Details" styleClass="button-link-image button-edit"
+                                                     action="#{pages_idp_nels_idpuser_view.cmdEdit_Click()}"
+                                                     rendered="#{session_userSessionBean.isAdministrator() }"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:commandButton value="Change Password" styleClass="button-link-image button-edit"
+                                                     action="#{pages_idp_nels_idpuser_view.cmdChangePassword_Click()}"
+                                                     rendered="#{pages_idp_nels_idpuser_view.isSelfView() }" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    <h:commandButton value="Reset Password" styleClass="button-link-image button-edit"
+                                                     action="#{pages_idp_nels_idpuser_view.cmdResetPassword_Click()}"
+                                                     rendered="#{session_userSessionBean.isAdministrator() }"/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </td>
+                    <td valign="top">
+                        <div class="box-header">NeLS Idp User (# #{pages_idp_nels_idpuser_view.getIdpUser().getId()})</div>
+                        <div class="box-body">
+                            <table class="view-table">
+                                <tr>
+                                    <td class="field-prompt" style="width:150px;">Email<br/>(used as Username)</td>
+                                    <td>#{pages_idp_nels_idpuser_view.getIdpUser().getEmail()}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="field-prompt">First Name</td>
+                                    <td>#{pages_idp_nels_idpuser_view.getIdpUser().getFirstName()}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="field-prompt">Last Name</td>
+                                    <td>#{pages_idp_nels_idpuser_view.getIdpUser().getLastName()}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="field-prompt">Affiliation</td>
+                                    <td>#{pages_idp_nels_idpuser_view.getIdpUser().getAffiliation()}</td>
+                                </tr>
+                                <tr>
+                                    <td class="field-prompt">Status</td>
+                                    <td>#{pages_idp_nels_idpuser_view.getIdpUser().isActive()? 'Active' : 'Inactive'}</td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

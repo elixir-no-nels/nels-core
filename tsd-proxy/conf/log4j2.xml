@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" monitorInterval="60">
+    <Properties>
+        <Property name="log-path">../logs</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="service-log" fileName="${log-path}/tsd_service.log"
+                     filePattern="${log-path}/tsd_service-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="15"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="no.nels.tsd" level="debug" additivity="false">
+            <AppenderRef ref="service-log"/>
+        </Logger>
+        <Root level="debug">
+            <AppenderRef ref="service-log"/>
+        </Root>
+    </Loggers>
+</Configuration>
+

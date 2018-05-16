@@ -1,0 +1,16 @@
+New NeLS Idp Registration Request
+
+First Name: ?first_name?
+
+Last Name: ?last_name?
+
+Affiliation : ?affiliation?
+
+Usage Description:
+
+?usage?
+
+
++  +  +
+NeLS - Norwegian eInfrastructure for Life Sciences
+?webappUrl

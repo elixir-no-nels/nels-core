@@ -1,0 +1,197 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure-navigator.xhtml">
+
+    <ui:define name="content">
+        <h:form>
+            <div id="nels-panel" class="panel">
+                <div class="box-header">NeLS</div>
+                <div class="box-body">
+                    <table>
+                        <tr>
+                            <td>You are at : <h:graphicImage name="/images/folder.png"/></td>
+                            <td>
+                                <ul class="path">
+                                    <li>
+                                        <h:link styleClass="button-link" value="/"
+                                                outcome="#{child_bean.getTargetPage()}">
+                                            <f:param name="path" value=""/>
+                                            <c:forEach items="#{child_bean.getUrlParameters()}" var="entry">
+                                                <f:param name="#{entry.key}" value="#{entry.value}"/>
+                                            </c:forEach>
+                                        </h:link>
+                                    </li>
+                                    <ui:repeat var="nav" value="#{child_bean.getNavStack()}">
+                                        <li>
+                                            <h:outputText value="/"
+                                                          styleClass="button-link"
+                                                          rendered='#{!nav.equals("Personal") and !nav.equals("Projects") and !nav.equals("")}'/>
+                                            <h:link styleClass="button-link" value="#{child_bean.getLastPath(nav)}"
+                                                    outcome="#{child_bean.getTargetPage()}">
+                                                <f:param name="path" value="#{nav}"/>
+                                                <c:forEach items="#{child_bean.getUrlParameters()}" var="entry">
+                                                    <f:param name="#{entry.key}" value="#{entry.value}"/>
+                                                </c:forEach>
+                                            </h:link>
+                                        </li>
+                                    </ui:repeat>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="clear: both;">
+                        <p:dataTable id="nels-homeview" var="item"
+                                     value="#{child_bean.getHomeViewItems()}" paginator="true"
+                                     rows="10"
+                                     paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     pageLinks="6"
+                                     rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                     paginatorAlwaysVisible="false"
+                                     rendered="#{child_bean.isHomeView()}">
+                            <p:column headerText="Name" style="line-height:2;"
+                                      sortBy="#{item.path}">
+                                <h:link styleClass="button-link-image #{(item.path.equals('Personal')) ? 'folder':'project'}" value="#{item.path}"
+                                        outcome="#{child_bean.getTargetPage()}">
+                                    <f:param name="path" value="#{item.path}"/>
+                                    <c:forEach items="#{child_bean.getUrlParameters()}" var="entry">
+                                        <f:param name="#{entry.key}" value="#{entry.value}"/>
+                                    </c:forEach>
+                                </h:link>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable id="project-homeview" var="project"
+                                     value="#{child_bean.getUserProjectModel()}" paginator="true"
+                                     rows="10"
+                                     paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     pageLinks="6"
+                                     rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                     paginatorAlwaysVisible="false"
+                                     rendered="#{child_bean.isProjectsHomeView()}">
+                            <p:column headerText="Name" style="line-height:2;"
+                                      sortBy="#{project.getProject().getName()}">
+                                <h:link styleClass="button-link-image project" value="#{project.getProject().getName()}"
+                                        outcome="#{child_bean.getTargetPage()}">
+                                    <f:param name="path" value="Projects/#{project.getProject().getName()}"/>
+                                    <c:forEach items="#{child_bean.getUrlParameters()}" var="entry">
+                                        <f:param name="#{entry.key}" value="#{entry.value}"/>
+                                    </c:forEach>
+                                </h:link>
+                            </p:column>
+                            <p:column headerText="Creation Date">
+                                <h:outputText
+                                        value="#{project.getProject().getCreationDate()}">
+                                    <f:convertDateTime dateStyle="long"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Role in Project">
+                                <h:outputText
+                                        value="#{project.getMembership().toString()}">
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable id="nels-fileFolders" var="nels_item"
+                                     value="#{child_bean.fileFolders}" paginator="true"
+                                     rows="10"
+                                     paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     pageLinks="6"
+                                     rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                     paginatorAlwaysVisible="false"
+                                     selection="#{child_bean.selectedFileFolders}" rendered="#{child_bean.isFileFolderView()}">
+                            <p:column selectionMode="multiple"/>
+                            <p:column headerText="Name" style="line-height:2;"
+                                      sortBy="#{nels_item.name}">
+                                <h:link styleClass="button-link-image #{nels_item.getCss()}" value="#{nels_item.name}"
+                                        outcome="#{child_bean.getTargetPage()}" rendered="#{nels_item.isFolder()}">
+                                    <f:param name="path" value="#{nels_item.path}"/>
+                                    <c:forEach items="#{child_bean.getUrlParameters()}" var="entry">
+                                        <f:param name="#{entry.key}" value="#{entry.value}"/>
+                                    </c:forEach>
+                                </h:link>
+                                <!--
+                                <h:outputText styleClass="file-no-link" value="#{nels_item.name}"
+                                              rendered="#{!nels_item.isFolder()}"/>
+                                -->
+                                <h:outputLink value="#{facesContext.externalContext.context.contextPath}/pages/storage/download.xhtml?path=#{child_bean.encrypt(nels_item.path)}&amp;isFolder=#{nels_item.isFolder()}"
+					                styleClass="button-link-image #{nels_item.getCss()}"
+					                rendered="#{not nels_item.isFolder()}">#{nels_item.name}
+				                </h:outputLink>
+                                <br/>
+                                <span class="extra-info">
+                                    <h:outputText value="#{child_bean.getFileSizeForDisplay(nels_item.size)}"
+                                              rendered="#{!nels_item.isFolder()}"/>
+                                </span>
+                            </p:column>
+                            <p:column
+                                    rendered="#{child_bean.isEditDeletePermitted()}">
+                                <h:commandButton value="Rename"
+                                                 action="#{child_bean.cmdRename_Click(nels_item.name, 'goToUrlBeforePopup();')}"
+                                                 styleClass="button-link-image rename #{(child_bean.isItemCut(nels_item.getPath()) ==  true)? 'cut-item':''}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <div>
+                        <p:outputPanel>
+
+
+
+
+                            <h:commandButton value="New Folder"
+                                             styleClass="button folder-new"
+                                             action="#{child_bean.cmdAddFolder_Click('goToUrlBeforePopup();')}"
+                                             rendered="#{child_bean.isFileFolderView()}"/>
+
+                            <p:outputPanel id="file_shuffle_buttons"
+                                           rendered="#{child_bean.isFileShuffleButtonsVisible()}">
+                                <h:commandButton value="Copy" styleClass="button button-copy"
+                                                 action="#{child_bean.cmdCopy_Click()}"/>
+
+                                <h:commandButton value="Cut" styleClass="button button-cut"
+                                                 action="#{child_bean.cmdCut_Click()}"
+                                                 rendered="#{child_bean.isEditDeletePermitted()}"/>
+
+
+                                <h:commandButton value="Paste"
+                                                 styleClass="button button-paste  #{(child_bean.isPastePermitted() ==  false)? 'button-disabled':''}"
+                                                 disabled="#{not child_bean.isPastePermitted()}"
+                                                 action="#{child_bean.cmdPaste_Click()}"/>
+
+                            </p:outputPanel>
+                            <h:commandButton value="Delete"
+                                             styleClass="button button-delete"
+                                             onclick="return confirm('Are you sure you want to Delete the selected files/folders ?')"
+                                             action="#{child_bean.cmdDelete_Click}"
+                                             rendered="#{child_bean.isEditDeletePermitted() and child_bean.isFileFolderView()}"/>
+
+                            <h:commandButton value="Transfer To #{child_bean.getDestinationForView()}" styleClass="button transfer-right"
+                                             style="float:right;margin-right:0px;"
+                                             action="#{child_bean.transferToOther()}" rendered="#{child_bean.transferButtonVisible()}"/>
+                            <script type="text/javascript">
+                                function goToUrlBeforePopup() {
+                                    window.open('#{child_bean.getRequestUrl()}',target = "_self");
+                                }
+                            </script>
+                        </p:outputPanel>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="other-panel">
+                <ui:insert name="otherPanel" id="otherPanel"/>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+
+
+</ui:composition>

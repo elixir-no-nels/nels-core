@@ -1,0 +1,449 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>no.nels</groupId>
+	<artifactId>nels.portal</artifactId>
+	<packaging>war</packaging>
+	<version>1.5</version>
+	<name>NeLS Portal</name>
+	<url>https://nels.bioinfo.no</url>
+
+	<properties>
+		<projectBuildFinalName>nels</projectBuildFinalName>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- external dependencies -->
+		<spring-security.version>3.1.0.RELEASE</spring-security.version>
+		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
+		<log4j-version>2.6.2</log4j-version>
+		<commons-codec-version>20041127.091804</commons-codec-version>
+		<!-- nels jars -->
+		<nels.commons-version>1.0</nels.commons-version>
+		<nels.client-version>2.0</nels.client-version>
+		<nels.idp.core-version>1.0</nels.idp.core-version>
+        <sbi-services-client.version>1.0</sbi-services-client.version>
+        <nels.extra.client-version>1.0</nels.extra.client-version>
+	</properties>
+	<profiles>
+		<profile>
+			<id>DEV</id>
+			<properties>
+				<nels.eup.configuraiton.file>DEV/no.nels.eup.core.properties</nels.eup.configuraiton.file>
+				<nels.idp.configuraiton.file>DEV/no.nels.idp.core.properties</nels.idp.configuraiton.file>
+				<nels.security.context.file>DEV/applicationContext-security.xml</nels.security.context.file>
+				<nels.portal.configuration.file>DEV/no.nels.portal.properties</nels.portal.configuration.file>
+                <nels.oauth2.configuration.file>DEV/oauth2.json</nels.oauth2.configuration.file>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>TEST</id>
+			<properties>
+				<nels.eup.configuraiton.file>TEST/no.nels.eup.core.properties</nels.eup.configuraiton.file>
+				<nels.idp.configuraiton.file>TEST/no.nels.idp.core.properties</nels.idp.configuraiton.file>
+				<nels.security.context.file>TEST/applicationContext-security.xml</nels.security.context.file>
+				<nels.portal.configuration.file>TEST/no.nels.portal.properties</nels.portal.configuration.file>
+                <nels.oauth2.configuration.file>TEST/oauth2.json</nels.oauth2.configuration.file>
+			</properties>
+		</profile>
+		<profile>
+			<id>PROD</id>
+			<properties>
+				<nels.eup.configuraiton.file>PROD/no.nels.eup.core.properties</nels.eup.configuraiton.file>
+				<nels.idp.configuraiton.file>PROD/no.nels.idp.core.properties</nels.idp.configuraiton.file>
+				<nels.security.context.file>PROD/applicationContext-security.xml</nels.security.context.file>
+				<nels.portal.configuration.file>PROD/no.nels.portal.properties</nels.portal.configuration.file>
+                <nels.oauth2.configuration.file>PROD/oauth2.json</nels.oauth2.configuration.file>
+			</properties>
+		</profile>
+        <profile>
+            <id>PRODPARALLEL</id>
+            <properties>
+                <nels.eup.configuraiton.file>PROD/no.nels.eup.core.properties</nels.eup.configuraiton.file>
+                <nels.idp.configuraiton.file>PROD/no.nels.idp.core.properties</nels.idp.configuraiton.file>
+                <nels.security.context.file>PROD/applicationContext-security-parallel.xml</nels.security.context.file>
+                <nels.portal.configuration.file>PROD/no.nels.portal.parallel.properties</nels.portal.configuration.file>
+                <nels.oauth2.configuration.file>PROD/oauth2.json</nels.oauth2.configuration.file>
+            </properties>
+        </profile>
+	</profiles>
+
+    <repositories>
+        <repository>
+            <id>prime-repo</id>
+            <url>http://repository.primefaces.org</url>
+        </repository>
+
+        <repository>
+            <id>ibiblio</id>
+            <name>ibiblio mirror</name>
+            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
+        </repository>
+
+        <repository>
+            <id>apache</id>
+            <name>apache repo1</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+
+        <repository>
+            <id>Java.Net</id>
+            <url>http://download.java.net/maven/2/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <!-- Log4j2 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+            <version>${log4j-version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- SAML2 SSO begin -->
+        <!-- The following opensaml must be added explicitly here, otherwise a
+            older version is used -->
+        <dependency>
+            <groupId>org.springframework.security.extensions</groupId>
+            <artifactId>spring-security-saml2-core</artifactId>
+            <version>1.0.0.RC2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+            <version>2.5.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.santuario</groupId>
+                    <artifactId>xmlsec</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- SAML2 SSO end -->
+
+        <!-- PrimeFaces -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>aristo</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <!-- PrimeFaces end -->
+        <!-- JSF 2 -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+        <!-- Better EL -->
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>2.2.1-b04</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>2.2.1-b05</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dependencies for logging -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec-version}</version>
+        </dependency>
+
+        <!-- Spring Sec support -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-acl</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>3.0.7.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.0.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>3.0.7.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>3.1.2.RELEASE</version>
+		</dependency>
+		<!-- file upload related dependency -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+		<!-- nels dependencies -->
+		<dependency>
+			<groupId>no.nels</groupId>
+			<artifactId>nels.commons</artifactId>
+			<version>${nels.commons-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>no.nels</groupId>
+			<artifactId>nels.idp.core</artifactId>
+			<version>${nels.idp.core-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>no.nels</groupId>
+			<artifactId>nels.client</artifactId>
+			<version>${nels.client-version}</version>
+		</dependency>
+        <dependency>
+            <groupId>no.nels</groupId>
+            <artifactId>nels.extra.client</artifactId>
+            <version>${nels.extra.client-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>no.norstore.storebioinfo</groupId>
+            <artifactId>sbi-services-client</artifactId>
+            <version>${sbi-services-client.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.52</version>
+        </dependency>
+
+    </dependencies>
+
+	<build>
+		<finalName>${projectBuildFinalName}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+				<configuration>
+					<packagingExcludes>WEB-INF/classes/PROD/**,WEB-INF/classes/TEST/**</packagingExcludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<move
+									file="${project.build.directory}/classes/${nels.eup.configuraiton.file}"
+									tofile="${project.build.directory}/classes/no.nels.eup.core.properties" />
+								<move
+										file="${project.build.directory}/classes/${nels.idp.configuraiton.file}"
+										tofile="${project.build.directory}/classes/no.nels.idp.core.properties" />
+								<move
+									file="${project.build.directory}/classes/${nels.security.context.file}"
+									tofile="${project.build.directory}/classes/applicationContext-security.xml" />
+								<move
+									file="${project.build.directory}/classes/${nels.portal.configuration.file}"
+									tofile="${project.build.directory}/classes/no.nels.portal.properties" />
+                                <move
+                                        file="${project.build.directory}/classes/${nels.oauth2.configuration.file}"
+                                        tofile="${project.build.directory}/classes/oauth2.json" />
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

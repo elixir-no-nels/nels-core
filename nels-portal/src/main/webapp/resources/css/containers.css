@@ -1,0 +1,206 @@
+#messages {
+    float: right;
+}
+
+.full-width {
+    width: 99%;
+}
+
+.box-header {
+    background: url(#{resource[ 'images/block-bg.jpg' ]}) no-repeat transparent;
+    color: #960014;
+    font-family: "Lucida Sans Unicode", Arial, Helvetica;
+    font-size: 21px;
+    font-weight: normal;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.block-header {
+    color: #777777;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.box-body {
+    padding: 10px;
+}
+
+.logo-box {
+    float: left;
+    margin-left: 10px;
+    text-align: left;
+}
+
+.logo-box h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #273F7B;
+}
+
+.logo-box p {
+    font-size: 12px;
+    font-weight: normal;
+    border-top: 1px solid #666644;
+}
+
+.search-table{
+
+}
+
+.search-table input{
+    border: 1px solid #60A6EB;
+    border-radius: 5px 5px 5px 5px;
+    color: #1566A8;
+    font-size: 16px;
+    height: 25px;
+}
+
+.contact-form {
+    width: 500px;
+}
+
+.contact-form input {
+    border: 1px solid #60A6EB;
+    border-radius: 5px 5px 5px 5px;
+    color: #1566A8;
+    font-size: 16px;
+    height: 25px;
+    width: 350px;
+}
+
+.contact-form textarea {
+    border: 1px solid #60A6EB;
+    border-radius: 5px 5px 5px 5px;
+    color: #1566A8;
+    font-size: 16px;
+    height: 110px;
+    width: 97%;
+}
+
+#breadcrum {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+#breadcrum li {
+    float: left;
+}
+
+.view-table {
+    font-weight: normal;
+    min-width: 550px;
+    font-weight: bold;
+}
+
+.view-table td {
+    height: 2em;
+    font-size: 14px;
+}
+
+.view-table .field-prompt {
+    color: #777777;
+    font-weight: normal;
+}
+
+.nels-interaction-panels{
+    width:100%;
+}
+
+.nels-interaction-panels .nels-panel{
+     width:50%;
+     float:left;
+ }
+
+.nels-interaction-panels .other-panel{
+    width:50%;
+    float:right;
+}
+
+.history-list .ui-widget-content {
+    background-color: #f0f6fd;
+}
+
+.history-list .ui-datalist-data {
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+.history-list .ui-datalist-item {
+    color: green;
+}
+
+.animated .ui-progressbar-value {
+    background-image: url("#{resource['images/pbar-ani.gif']}");
+}
+
+.bootstrap-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+
+.bootstrap-danger {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+
+.bootstrap-warning {
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #8a6d3b;
+}
+
+.bootstrap-info {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;
+}
+
+.bootstrap-gray {
+    background-color: #efefef;
+    border-color: #ccc;
+    color: #555;
+}
+
+.job-wrapper{
+    padding:5px;
+    margin-bottom:5px;
+    border-radius: 3px;
+}
+.job-header{
+    font-weight: bold;
+    text-decoration: underline;
+    cursor:pointer;
+    padding-bottom: 5px;
+}
+.job-extra-info{
+    font-weight: normal;
+    color:#555;
+    font-size:12px;
+}
+.job-feeds{
+    font-weight: lighter;
+    background-color: #fff;
+    padding: 3px;
+}
+
+.job-feed{
+    color:#777;
+    line-height: 1.5em;
+}
+
+.job-close, .job-close:visited {
+    float:right;
+    font-size:x-large;
+    text-decoration: none;
+    color:#777;
+}
+.job-close:hover{
+    text-decoration: underline;
+}
+

@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_projects_projects.getPageTitle()}" />
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="box-header">Projects</div>
+            <div class="box-body">
+
+                <table class = "full-width search-table" >
+                    <tr>
+                        <td>#<br/>
+                            <h:inputText id="searchId" value="#{pages_projects_projects.searchId}" />
+                        </td>
+                        <td>Name<br/>
+                            <h:inputText id="searchName" value="#{pages_projects_projects.searchName}" />
+                        </td>
+
+                    </tr>
+                </table>
+                <div style="padding-bottom: 10px;" >
+                    <h:commandButton value="Search"
+                                     action="#{pages_projects_projects.cmdSearch_Click()}"
+                                     styleClass="button button-search"	 >
+                    </h:commandButton>
+                    <h:commandButton value="Refresh" styleClass="button button-refresh"
+                                     action="#{pages_projects_projects.cmdRefreshSearch_Click()}" />
+                </div>
+
+                <p:dataTable id="dtProjects" var="project"
+                             value="#{pages_projects_projects.getProjects()}" paginator="true" rows="10"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                             paginatorAlwaysVisible="false"
+                             selection="#{pages_projects_projects.selectedProjects}"
+                             rendered="#{pages_projects_projects.getPageMode()!='pickone'}">
+
+                    <p:column selectionMode="multiple" />
+                    <p:column headerText="#" sortBy="#{project.id}">
+                        <h:outputText value="#{project.getId()}" />
+                    </p:column>
+                    <p:column headerText="Name" rendered="#{pages_projects_projects.getPageMode()=='process'}"  sortBy="#{project.name}">
+                        <h:commandButton class="button-link-image button-view"
+                                         value="#{project.getName()}"
+                                         action="#{pages_projects_projects.viewProject(project.id)}" />
+                    </p:column>
+                    <p:column headerText="Name" rendered="#{pages_projects_projects.getPageMode()!='process'}" sortBy="#{project.name}">
+                        <h:outputText value="#{project.getName()}" />
+                    </p:column>
+                    <p:column headerText="Creation Date" sortBy="#{project.creationDate}">
+                        <h:outputText value="#{project.getCreationDate()}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="dtProjectsSingleSelect" var="project"
+                             value="#{pages_projects_projects.getProjects()}" paginator="true" rows="10"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                             paginatorAlwaysVisible="false"
+                             selection="#{pages_projects_projects.selectedProject}"
+                             rendered="#{pages_projects_projects.getPageMode()=='pickone'}">
+                    <p:column selectionMode="single" />
+                    <p:column headerText="#">
+                        <h:outputText value="#{project.getId()}" />
+                    </p:column>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{project.getName()}" />
+                    </p:column>
+                    <p:column headerText="Creation Date">
+                        <h:outputText value="#{project.getCreationDate()}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+                <p:outputPanel rendered="#{pages_projects_projects.getPageMode()=='process'}">
+                    <h:commandButton value="delete"
+                                     action="#{pages_projects_projects.deleteProjects}"
+                                     styleClass="button button-delete"
+                                     onclick="return confirm('Are you sure you want to delete the selected Project(s)?')">
+                    </h:commandButton>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{pages_projects_projects.getPageMode()=='pick' or pages_projects_projects.getPageMode() == 'pickone'}">
+                    <h:commandButton value="Accept"
+                                     action="#{pages_projects_projects.cmdAcceptPicker_Click()}"
+                                     styleClass="button"
+                                     onclick="return confirm('Are you sure you want to Accept the selected Project(s)?')">
+                    </h:commandButton>
+                    <h:commandButton value="Cancel" styleClass="button button-cancel"
+                                     action="#{pages_projects_projects.cmdCancelPicker_Click()}" />
+                </p:outputPanel>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

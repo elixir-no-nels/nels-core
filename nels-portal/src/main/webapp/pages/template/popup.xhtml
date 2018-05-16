@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+
+	<h:head>
+		<title><ui:insert name="page-title">NeLS Portal</ui:insert></title>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+	</h:head>
+	<h:body>
+
+		<!-- css -->
+		<h:outputStylesheet name="default.css" library="css" target="head" />
+		<h:outputStylesheet name="layout.css" library="css" target="head" />
+		<h:outputStylesheet name="user.css" library="css" target="head" />
+		<h:outputStylesheet name="containers.css" library="css" target="head" />
+		<h:outputStylesheet name="controls.css" library="css" target="head" />
+		<h:outputStylesheet name="popup.css" library="css" target="head" />
+		<!-- if there is a popup -->
+		<script type="text/javascript">
+			if(#{session_popupBean.show()}){
+			TINY.box.show({
+				iframe : '#{session_popupBean.url}',
+				width : #{session_popupBean.width},
+				height : #{session_popupBean.height},
+				fixed : false,
+				masked : 'bgmask',
+				maskopacity : 40,
+				closejs: function(){#{session_popupBean.closeJs}}
+			});
+			}
+			if(#{session_popupBean.close()}){
+				parent.TINY.box.hide();
+			}
+		</script>
+		<!--  if required to go back to root -->
+		<script type="text/javascript">
+			if(#{session_rootRedirectBean.getHasRootRedirect()}){
+				if(#{session_userSessionBean.isFromGalaxy()}){
+				window.open('#{session_rootRedirectBean.url}',target="_self");
+				}
+				else{
+					window.open('#{session_rootRedirectBean.url}',target="_top");
+				}
+			}
+		</script>
+		<div id="center-container" align="center">
+			<div id="above-content-container">
+				<ui:insert name="above-content" id="above-content" />
+			</div>
+			<div id="content-container" style="border:none;">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<ui:insert name="content" id="content" />
+			</div>
+			<div id="below-content-container">
+				<ui:insert name="below-content" id="below-content" />
+			</div>
+		</div>
+		<p:dataTable id="fake-table-to-add-message-ajax"
+			style="visibility:hidden;">
+		</p:dataTable>
+		<ui:include src="/pages/template/sessionTimeOut.xhtml" />
+	</h:body>
+</f:view>
+
+</html>
+
+

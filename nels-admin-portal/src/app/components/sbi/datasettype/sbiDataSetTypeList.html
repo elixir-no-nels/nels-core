@@ -1,0 +1,115 @@
+<nav class="navbar navbar-fixed-top  nels-sub-menu" role="navigation">
+
+    <div>
+        <button type="button" class="btn btn-link" ng-click="$ctrl.add()">
+            <span class="glyphicon glyphicon-plus"></span>&nbsp;Add
+        </button>
+
+        <div class="btn-group" uib-dropdown is-open="{{$ctrl.subtypeselectionMenu}}"
+             style="margin-left: 5px;" ng-show="false">
+            <button id="Button3" type="button" class="btn btn-link"
+                    uib-dropdown-toggle ng-disabled="disabled"
+                    ng-click="$ctrl.subtypeselectionMenu = !$ctrl.subtypeselectionMenu">
+                <span aria-hidden="true" class="glyphicon glyphicon-check"></span>&nbsp;Selection<span
+                    class="badge" style="margin-left: 5px">
+					{{$ctrl.selectedDatasetTypes.length}}</span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                aria-labelledby="single-button">
+
+                <li ng-class="{'disabled': $ctrl.selectedDatasetTypes.length ==0}"><a
+                        type="button" class="btn btn-link"
+                        ng-click="$ctrl.selectedDatasetTypes.length ==0  || $ctrl.deleteSelected()">
+                        <span
+                                class="glyphicon glyphicon-remove"></span>&nbsp;Delete</a>
+                </li>
+                <li class="divider"></li>
+                <li><a type="button" class="btn btn-link"
+                       ng-click="selectionService.selectAll($ctrl.projects,$ctrl.selectedDatasetTypes)">
+                    <span class="glyphicon glyphicon-ok"></span>&nbsp;Select All</a>
+                </li>
+                <li ng-class="{'disabled': $ctrl.selectedDatasetTypes.length ==0}"><a
+                        type="button" class="btn btn-link"
+                        ng-click="selectionService.clearSelection($ctrl.selectedDatasetTypes)">
+                        <span
+                                class="glyphicon glyphicon-refresh"></span>&nbsp;Clear Selection</a>
+                </li>
+            </ul>
+        </div>
+
+        <input type="text"
+               data-ng-model="$ctrl.searchText"
+               placeholder="Search Text"
+               ng-change="$ctrl.search()"
+               ng-model-options="{debounce:500}"
+        />
+
+    </div>
+</nav>
+<div class="container-fluid" style="margin-top:50px;">
+    <h2>Sbi Data Set Types</h2>
+    <div data-ng-show="$ctrl.dataSetTypes.length==0">No records</div>
+    <div class="alert {{nelsAlertService.alert.css}} pull-right"
+         style="margin-top: 3px;" ng-show="nelsAlertService.alert.show">
+        <button type="button" class="close"
+                ng-click="nelsAlertService.alert.show = !nelsAlertService.alert.show"><span
+                class="glyphicon glyphicon-remove"></span>
+        </button>
+        <strong>{{nelsAlertService.alert.status}}</strong>
+        {{nelsAlertService.alert.message}}&nbsp;
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="col-sm-1"></th>
+            <th class="col-sm-6"><a ng-click="$ctrl.sortBy('name')" class="nels-clickable">Name</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'name'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+
+            <th class="col-sm-1"><a ng-click="$ctrl.sortBy('creator')"
+                                    class="nels-clickable">Creator</a> <span class="sortorder"
+                                                                             ng-show="$ctrl.sortColumn === 'creator'"
+                                                                             ng-class="{reverse: $ctrl.reverse}"></span>
+            </th>
+            <th class="col-sm-4">Subtypes</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr data-ng-repeat="type in $ctrl.dataSetTypes | orderBy:sortColumn:reverse">
+            <td><a ng-click="$ctrl.deleteType(type)" class="btn btn-link" uib-tooltip="Delete"><span
+                    class="glyphicon glyphicon-remove text-danger"></span></a></td>
+            <td>{{type.name}}<br/>
+                <small class="text-muted">{{$ctrl.getDescription(type.description)}}</small>
+            </td>
+
+            <td>{{type.adder}}</td>
+            <td>
+                {{type.elements}}
+            </td>
+        </tr>
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <td colspan="4">
+                <pagination get-previous-class="$ctrl.getPreviousClass()"
+                            previous-page="$ctrl.previousPage()"
+                            get-pages="$ctrl.getPages()"
+                            get-page-class="$ctrl.getPageClass(value)"
+                            set-current-page="$ctrl.setCurrentPage(value)"
+                            get-next-class="$ctrl.getNextClass()"
+                            next-page="$ctrl.nextPage()"
+                            start-number="$ctrl.startNumber()"
+                            end-number="$ctrl.endNumber()"
+                            get-total-size="$ctrl.getTotalSize()"
+                            change="$ctrl.change(value)"
+                            first-page="$ctrl.firstPage()"
+                            last-page="$ctrl.lastPage()"></pagination>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

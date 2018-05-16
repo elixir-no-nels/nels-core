@@ -1,0 +1,169 @@
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <h3 style="word-wrap:break-word" class="text-primary"><span class="glyphicon glyphicon-briefcase"></span>
+            {{$ctrl.quota.name}}</h3>
+        <p><label> Creation date:</label><br/>{{$ctrl.quota.creation_date | date : 'dd MMM yyyy'}}</p>
+        <p><label> Description:</label><br/>{{$ctrl.quota.description}}</p>
+        <p><label> Quota Size:</label><br/>{{$ctrl.quota.quota_size | bytes}}</p>
+        <p><label> Disk Usage:</label><br/>{{$ctrl.quota.used_size | bytes}}</p>
+
+        <hr/>
+        <ul class="nav nav-sidebar">
+            <li class="nels-clickable"><a ng-click="$ctrl.editQuota()"><span
+                    class="glyphicon glyphicon-edit"></span>&nbsp;Edit
+            </a></li>
+            <li class="nels-clickable"><a ng-click="$ctrl.deleteQuota()"><span
+                    class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+            </a></li>
+        </ul>
+    </div>
+    <div id="page-content-wrapper">
+
+        <div class="row full-width">
+            <div class="col-sm-9">
+                <div class="alert {{nelsAlertService.alert.css}} pull-right"
+                     style="margin-top: 3px;" ng-show="nelsAlertService.alert.show">
+                    <button type="button" class="close"
+                            ng-click="nelsAlertService.alert.show = !nelsAlertService.alert.show"><span
+                            class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <strong>{{nelsAlertService.alert.status}}</strong>
+                    {{nelsAlertService.alert.message}}&nbsp;
+                </div>
+                <uib-tabset active="active">
+                    <uib-tab>
+                        <uib-tab-heading>
+                            <span class="glyphicon glyphicon-folder-open"></span><span>&nbsp;&nbsp;Projects in quota</span>
+                        </uib-tab-heading>
+                        <nav class="nav" style="background-color: #efefef;">
+
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-link" ng-click="$ctrl.add()">
+                                    <span class="glyphicon glyphicon-plus">Add</span>
+                                </button>
+                            </div>
+
+                            <div class="btn-group" uib-dropdown>
+                                <button id="Button3" type="button" class="btn btn-link"
+                                        uib-dropdown-toggle ng-disabled="disabled"
+                                        ng-click="selectionMenu = !selectionMenu">
+                                    <span class="glyphicon glyphicon-check">Selection</span>
+                                    <span class="badge" style="margin-left: 5px">{{$ctrl.selectedProjects.length}}</span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                    aria-labelledby="single-button">
+
+                                    <li ng-class="{'disabled': $ctrl.selectedProjects.length ==0}">
+                                        <a
+                                                type="button" class="btn btn-link"
+                                                ng-click="$ctrl.selectedProjects.length == 0  || $ctrl.deleteSelected()">
+                                            <span class="glyphicon glyphicon-remove">&nbsp;Remove Projects</span>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a type="button" class="btn btn-link"
+                                           ng-click="selectionService.selectAll($ctrl.projects,$ctrl.selectedProjects)">
+                                            <span class="glyphicon glyphicon-ok">&nbsp;Select All</span>
+                                        </a>
+                                    </li>
+                                    <li ng-class="{'disabled': $ctrl.getSizeOfSelection() ==0}">
+                                        <a type="button" class="btn btn-link" ng-click="selectionService.clearSelection($ctrl.selectedProjects)">
+                                            <span class="glyphicon glyphicon-refresh">&nbsp;Clear Selection</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+
+                        </nav>
+                        <table class="table table-striped" style="margin-bottom: 0px">
+                            <thead>
+                            <tr>
+                                <th><a ng-click="$ctrl.sortBy('name')" class="nels-clickable">Name</a>
+                                    <span class="sortorder" ng-show="$ctrl.sortColumn === 'name'"
+                                          ng-class="{reverse: $ctrl.reverse}"></span></th>
+                                <th><a ng-click="$ctrl.sortBy('contact_person')" class="nels-clickable">Contact
+                                    Person</a>
+                                    <span class="sortorder" ng-show="$ctrl.sortColumn === 'contact_person'"
+                                          ng-class="{reverse: $ctrl.reverse}"></span></th>
+                                <th><a ng-click="$ctrl.sortBy('disk_usage')" class="nels-clickable">Disk usage</a>
+                                    <span class="sortorder" ng-show="$ctrl.sortColumn === 'disk_usage'"
+                                          ng-class="{reverse: $ctrl.reverse}"></span>
+                                </th>
+                                <th><a ng-click="$ctrl.sortBy('creation_date')" class="nels-clickable">Creation Date</a>
+                                    <span class="sortorder" ng-show="$ctrl.sortColumn === 'creation_date'"
+                                          ng-class="{reverse: $ctrl.reverse}"></span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="project in $ctrl.projects  | filter:filterText | orderBy:sortColumn:reverse"
+                                ng-click="selectionService.toggleItem($ctrl.selectedProjects, project)"
+                                class="nels-clickable {{selectionService.selectionCss($ctrl.selectedProjects, project)}}">
+                                <td>
+                                   <a ng-click="sbiProjectNavigatorService.viewProjectDetail('app.sbiProjects.detail', project.id);"> {{project.name}}</a><br/>
+                                    <small class="text-muted">{{$ctrl.getDescription(project.description)}}</small>
+                                </td>
+                                <td>{{project.contact_person}}</td>
+                                <td>
+                                    <div ng-if="project.disk_usage > 0 ">
+                                        {{project.disk_usage | bytes}} <br/>
+                                        <small class="text-muted">{{project.disk_usage_last_update | date : 'dd MMM yyyy'}}
+                                        </small>
+                                    </div>
+                                    <div ng-if="project.disk_usage <= 0 ">
+                                        -
+                                    </div>
+
+                                </td>
+                                <td>{{project.creation_date | customizeDate | date : 'dd MMM yyyy'}}</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <pagination get-previous-class="$ctrl.getPreviousClass()"
+                                                previous-page="$ctrl.previousPage()"
+                                                get-pages="$ctrl.getPages()"
+                                                get-page-class="$ctrl.getPageClass(value)"
+                                                set-current-page="$ctrl.setCurrentPage(value)"
+                                                get-next-class="$ctrl.getNextClass()"
+                                                next-page="$ctrl.nextPage()"
+                                                start-number="$ctrl.startNumber()"
+                                                end-number="$ctrl.endNumber()"
+                                                get-total-size="$ctrl.getTotalSize()"
+                                                change="$ctrl.change(value)"
+                                                first-page="$ctrl.firstPage()"
+                                                last-page="$ctrl.lastPage()"></pagination>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+            <div class="col-sm-3"><h3 style="word-wrap:break-word" class="text-primary">Recent activities</h3>
+
+                <div data-ng-repeat="journal in $ctrl.quota.journal"
+                     style="padding-top: 10px;border-bottom:1px solid #eee;line-height: 1.5em">
+                    <small class="text-muted">
+                        {{journal.logtime | date : 'dd MMM yyyy'}} | {{journal.name}}
+                    </small>
+                    <br/>
+                    <span data-ng-repeat="field in journal.fields">
+                        <span data-ng-repeat="(key,val) in field"><span ng-if="$even">{{val | bytes}}</span><label
+                                ng-if="$odd">{{ val | bytes}}</label><span ng-if="$even"> new value:</span><span
+                                ng-if="$odd">,</span></span>
+                    </span>
+
+                </div>
+                <div style="height:80px">&nbsp;</div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

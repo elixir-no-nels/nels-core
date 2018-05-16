@@ -1,0 +1,39 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="csdstctrl.cancelClick()"><span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <h3 class="modal-title">{{csdstctrl.modalTitle}}</h3>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="alert {{nelsAlertService.alert.css}}" ng-show="nelsAlertService.alert.isModal">
+                <button type="button" class="close"
+                        ng-click="nelsAlertService.alert.isModal = !nelsAlertService.alert.isModal"><span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <strong>{{nelsAlertService.alert.status}}</strong>
+                {{nelsAlertService.alert.message}}&nbsp;
+            </div>
+            <div class="row">
+                <div class="form-group required">
+                    <label for="typeName" class="control-label">Name</label>
+                    <input type="text" class="form-control" id="typeName" ng-model="csdstctrl.name">
+                </div>
+                <div class="form-group required">
+                    <label for="typeDescription" class="control-label">Description</label>
+                    <textarea class="form-control" id="typeDescription" rows="5"
+                              ng-model="csdstctrl.description"></textarea>
+                </div>
+                <div class="form-group required">
+                    <label for="subtypes" class="control-label">Subtypes</label>
+                    <input type="text" class="form-control" id="subtypes" ng-model="csdstctrl.subtypes">
+                    <small class="text-muted">Example:Raw,Primary,Analysis</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-disabled="!csdstctrl.isClickable()" ng-click="csdstctrl.okClick()" class="btn btn-primary pull-right" type="button">
+            <span class="glyphicon glyphicon-ok">OK</span>
+        </button>
+    </div>
+</div>

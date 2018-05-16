@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-interaction.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_tsd_file.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:param name="child_bean" value="#{pages_tsd_file}"/>
+
+
+    <ui:define name="otherPanel">
+        <div id="tsd-panel" class="panel">
+            <div class="box-header">TSD</div>
+            <div class="box-body">
+                <table>
+                    <tr>
+                        <td>You are at : <h:graphicImage name="/images/folder.png"/></td>
+                        <td>
+                            <ul class="path">
+                                <ui:repeat var="nav" value="#{pages_tsd_file.getTsdNavStack()}">
+                                    <li>
+                                        <h:link styleClass="button-link" value="/#{pages_tsd_file.getLastPath(nav)}"
+                                                outcome="tsd-file">
+                                            <f:param name="path"
+                                                     value="#{pages_tsd_file.currentNelsPath}"/>
+                                            <f:param name="tsd" value="#{nav}"/>
+                                        </h:link>
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                <p:remoteCommand name="refresh_fileFolders"
+                                 action="#{pages_tsd_file.jobCompletedAsyncRefresh()}"
+                                 id="refresh_fileFolders" process="@this"
+                                 update="tsd-fileFolders  nels-fileFolders"/>
+                <div style="clear: both;">
+                    <p:dataTable id="tsd-fileFolders" var="tsd_item"
+                                 value="#{pages_tsd_file.tsdFileModel}" paginator="true"
+                                 rows="30"
+                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                 pageLinks="6"
+                                 rowsPerPageTemplate="30,50,80" paginatorPosition="bottom"
+                                 paginatorAlwaysVisible="false"
+                                 selection="#{pages_tsd_file.selectedTsdFileFolders}">
+                        <p:column selectionMode="multiple"/>
+                        <p:column headerText="Name" style="line-height:2;"
+                                  sortBy="#{tsd_item.name}">
+                            <h:link styleClass="button-link-image folder" value="#{tsd_item.name}"
+                                    outcome="tsd-file" rendered="#{tsd_item.isFolder()}">
+                                <f:param name="path"
+                                         value="#{pages_tsd_file.currentNelsPath}"/>
+                                <f:param name="tsd" value="#{tsd_item.path}"/>
+                            </h:link>
+                            <h:outputText value="#{tsd_item.name}" rendered="#{!tsd_item.isFolder()}"
+                                          styleClass="file-no-link"/>
+                            <br/>
+                            <span class="extra-info">
+                                <h:outputText value="#{pages_tsd_file.getFileSizeForDisplay(tsd_item.size)}"/>
+                            </span>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <div>
+                    <p:outputPanel>
+                        <h:commandButton value="Transfer To NeLS" styleClass="button transfer-left"
+                                         style="float:left;margin-right:0px;"
+                                         action="#{pages_tsd_file.transferToNels()}"/>
+                        <h:commandButton value="Disconnect" styleClass="button"
+                                         style="float:right;margin-right:0px;"
+                                         action="#{pages_tsd_file.disconnectTsd()}"/>
+
+                    </p:outputPanel>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

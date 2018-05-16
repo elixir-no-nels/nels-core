@@ -1,0 +1,36 @@
+<div class="row">
+
+        <div class="col-md-2"><span>{{$ctrl.startNumber()}} - {{$ctrl.endNumber()}} in Total: {{$ctrl.getTotalSize()}}</span></div>
+    <div class="col-md-2">
+        <ui-select ng-change="$ctrl.onChange()" ng-model="$ctrl.selected" theme="bootstrap" search-enabled="false"
+                   style="width: 130px">
+            <ui-select-match placeholder="Size per page">{{$select.selected}}
+            </ui-select-match>
+            <ui-select-choices repeat="number in $ctrl.numbers">
+                {{number}}
+            </ui-select-choices>
+        </ui-select>
+
+    </div>
+    <div class="col-md-8">
+        <nav aria-label="Page navigation" class="pull-right">
+            <ul class="pagination">
+                <li ng-class="$ctrl.getPreviousClass()"><a ng-click="$ctrl.firstPage()"
+                                                           aria-label="First"><span>&lsaquo;</span></a></li>
+                <li ng-class="$ctrl.getPreviousClass()"><a ng-click="$ctrl.previousPage()"
+                                                           aria-label="Previous"><span>&laquo;</span></a></li>
+                <li data-ng-repeat="page in $ctrl.getPages()"
+                    ng-class='$ctrl.getPageClass({value: page})'><a
+                        class="nels-clickable" ng-click='$ctrl.setCurrentPage({value: page})'>{{page}}
+                </a></li>
+                <li ng-class="$ctrl.getNextClass()"><a ng-click="$ctrl.nextPage()"
+                                                       aria-label="Next"><span>&raquo;</span></a>
+                </li>
+                <li ng-class="$ctrl.getNextClass()"><a ng-click="$ctrl.lastPage()"
+                                                       aria-label="Last"><span>&rsaquo;</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>

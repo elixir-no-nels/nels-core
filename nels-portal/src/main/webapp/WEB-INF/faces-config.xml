@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+	
+	<!--managed-bean>
+		<description>customer</description>
+		<managed-bean-name>customer</managed-bean-name>
+		<managed-bean-class>no.norstore.archive.webui.persistence.bean.CustomerController</managed-bean-class>
+	
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>customerDao</property-name>
+			<value>#{customerDao}</value>
+		</managed-property>
+        </managed-bean-->
+	
+	<!--managed-bean>
+		<description>user</description>
+		<managed-bean-name>user</managed-bean-name>
+		<managed-bean-class>no.norstore.archive.webui.persistence.bean.UserController</managed-bean-class>
+	
+		<managed-bean-scope>session</managed-bean-scope></managed-bean-->
+        
+        <!--managed-bean>
+		<description>simpleTreeBean</description>
+		<managed-bean-name>simpleTreeBean</managed-bean-name>
+		<managed-bean-class>no.norstore.archive.webui.util.SimpleTreeBean</managed-bean-class>
+	
+		<managed-bean-scope>request</managed-bean-scope></managed-bean-->
+	
+	<application>
+		<!--
+		<locale-config>
+            <default-locale>en</default-locale>
+        </locale-config>
+		
+		<message-bundle>messages</message-bundle>
+		-->
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		
+                
+<!--		<view-handler>com.mycompany.util.CustomViewHandler</view-handler>-->
+	</application>
+	<!--
+		<application>
+		<variable-resolver>org.springframework.web.jsf.SpringBeanVariableResolver</variable-resolver>
+		</application>
+	-->
+	
+	
+	
+</faces-config>

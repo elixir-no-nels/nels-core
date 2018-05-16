@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_idp_nels_idpuser_edit.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="box-header">NeLS Idp User</div>
+            <div class="box-body">
+                <div class="contact-form">
+                    <p>
+                        Email (to be used as Username):<br/>
+                        <h:inputText id="name" value="#{pages_idp_nels_idpuser_edit.email}"/> *
+                    </p>
+
+                    <p>
+                        First Name:<br/>
+                        <h:inputText id="firstName" value="#{pages_idp_nels_idpuser_edit.firstName}"/> *
+                    </p>
+
+                    <p>
+                        Last Name:<br/>
+                        <h:inputText id="lastName" value="#{pages_idp_nels_idpuser_edit.lastName}"/> *
+                    </p>
+
+                    <p>
+                        Affiliation:<br/>
+                        <h:inputText id="affiliation" value="#{pages_idp_nels_idpuser_edit.affiliation}"/> *
+                    </p>
+                    <h:panelGroup rendered="#{pages_idp_nels_idpuser_edit.getPageMode()=='new'}">
+                        <p>
+                            Inital Password:<br/>
+                            <h:inputText id="password" value="#{pages_idp_nels_idpuser_edit.initialPassword}"/> *
+                        </p>
+
+                        <table>
+                            <tr>
+                                <td>Create NeLS profile:</td>
+                                <td><p:selectBooleanCheckbox value="#{pages_idp_nels_idpuser_edit.immediateNeLSProfileCreation}" /></td>
+                            </tr>
+                        </table>
+                    </h:panelGroup>
+                </div>
+                <h:commandButton value="Add"
+                                 action="#{pages_idp_nels_idpuser_edit.cmdAdd_Click()}"
+                                 rendered="#{pages_idp_nels_idpuser_edit.getPageMode()=='new'}"
+                                 styleClass="button button-new"/>
+                <h:commandButton value="Save"
+                                 action="#{pages_idp_nels_idpuser_edit.cmdUpdate_Click()}"
+                                 rendered="#{pages_idp_nels_idpuser_edit.getPageMode()=='edit'}"
+                                 styleClass="button button-save"/>
+                <h:commandButton value="Cancal"
+                                 action="#{pages_idp_nels_idpuser_edit.cmdCancel_Click()}"
+                                 styleClass="button button-cancel"/>
+
+
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

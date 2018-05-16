@@ -1,0 +1,93 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button"
+                    ng-click="$ctrl.navbarCollapsed = !$ctrl.navbarCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span
+                        class="glyphicon glyphicon-option-vertical"></span>
+            </button>
+            <a class="navbar-brand" href="#">{{NeLSAppSettings.name}}</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="topMenuContainer"
+             uib-collapse="$ctrl.navbarCollapsed">
+            <ul class="nav navbar-nav" ng-show="$ctrl.isAuth()">
+                <li class="{{$ctrl.activeStateCss('dashboard')}}">
+                    <a class="nels-clickable"
+                       ng-click="$ctrl.viewDashboard()">Home
+                    </a>
+                </li>
+                <li class="{{$ctrl.activeStateCss('users')}}">
+                    <a class="nels-clickable"
+                       ng-click="$ctrl.viewUsers()">Users
+                    </a>
+                </li>
+                <li class="{{$ctrl.activeStateCss('nelsprojects')}}">
+                    <a class="nels-clickable"
+                       ng-click="$ctrl.viewNelsProjects()">NeLS
+                        Projects
+                    </a>
+                </li>
+                <li class="nav-divider"></li>
+                <li class="{{$ctrl.activeStateCss('sbiQuota')}}">
+                    <a class="nels-clickable"
+                       ng-click="$ctrl.viewSbiQuotas()">Sbi Quotas
+                    </a>
+                </li>
+                <li class="{{$ctrl.activeStateCss('sbiProjects')}}">
+                    <a class="nels-clickable"
+                       ng-click="$ctrl.viewSbiProjects()">Sbi
+                        Projects
+                    </a>
+                </li>
+
+                <li uib-dropdown ng-show="nelsAuthService.auth.userType  === 'Administrator'"
+                    is-open="$ctrl.adminDropDownCollapsed">
+                    <a uib-dropdown-toggle
+                       ng-disabled="disabled" class="nels-clickable">
+                        Admin
+                    </a>
+                    <ul uib-dropdown-menu class="dropdown-menu" uib-collapse="!$ctrl.adminDropDownCollapsed"
+                        ng-click="$ctrl.adminDropDownCollapsed = !$ctrl.adminDropDownCollapsed" style="z-index:1500">
+                        <!-- <li class="dropdown-header">NeLS</li>
+                         <li class="disabled"><a class="nels-clickable">Total
+                             Size</a>
+                         </li>
+                         <li class="nav-divider"></li>
+                         -->
+                        <li class="dropdown-header">Storebioinfo</li>
+                        <li>
+
+                            <a class="nels-clickable" ng-click="$ctrl.editBlockQuota()">Block
+                                Quota
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nels-clickable"
+                               ng-click="$ctrl.viewSbiDataSetTypes()">Data Set Types
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+
+            <ul id="mnuRight" class="nav navbar-nav navbar-right">
+
+                <li ng-show="$ctrl.isAuth()">
+                    <a href="#">{{$ctrl.name}}</a>
+                </li>
+
+                <li ng-show="$ctrl.isAuth()">
+                    <a href="" ng-click="$ctrl.logOut()"><span
+                            class="glyphicon glyphicon-log-out"></span>&nbsp;Log out
+                    </a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>

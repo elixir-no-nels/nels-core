@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_storage_file_rename.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="box-header">File/Folder Rename</div>
+            <div class="box-body">
+                <div class="contact-form">
+                    <p>
+                        <span>Current name :</span><br/>
+                        <h:inputText id="oldFilename" value="#{pages_storage_file_rename.oldFilename}" disabled="true"/>
+                    </p>
+                    <p>
+                        <span>New name :</span><br/>
+                        <h:inputText id="newFilename" value="#{pages_storage_file_rename.newFilename}"/>
+                    </p>
+                </div>
+                <h:commandButton value="Save"
+                                 action="#{pages_storage_file_rename.cmdSave_Click}"
+                                 styleClass="button button-save">
+                </h:commandButton>
+                <h:commandButton value="Cancel" styleClass="button button-cancel"
+                                 action="#{pages_storage_file_rename.cmdCancel_Click}"/>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

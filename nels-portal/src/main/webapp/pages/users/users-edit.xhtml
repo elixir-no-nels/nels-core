@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/template/nels-secure.xhtml">
+
+	<ui:define name="page-title">
+		<h:outputText value="#{pages_users_users_edit.getPageTitle()}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<table class="full-width">
+				<tr>
+				<td valign="top" style="width: 180px;">
+						<div>
+							<h:commandButton value="Help (Support)"
+								styleClass="button button-no-image"
+								action="#{navigation_staticBean.showHelpForm()}"
+								style="width:150px;" />
+						</div>
+					</td>
+					<td valign="top">
+						<div class="box-header">NeLS Users</div>
+						<div class="box-body">
+							<p:outputPanel
+								rendered="#{pages_users_users_edit.getPageMode()=='process'}">
+								<p:dataTable id="dtUsers" var="usr"
+									value="#{pages_users_users_edit.getUsers()}" paginator="true"
+									rows="10"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+									rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+									paginatorAlwaysVisible="false"
+									selection="#{pages_users_users_edit.selectedUsers}">
+									<p:column selectionMode="multiple" />
+									<p:column headerText="Full Name"
+										rendered="#{pages_users_users_edit.getPageMode()!='process'}"
+										sortBy="#{usr.getIdpUser().getFullname()}">
+										<h:outputText value="#{usr.getIdpUser().getFullname()}" />
+									</p:column>
+									<p:column headerText="#" sortBy="#{usr.getId()}">
+										<h:outputText value="#{usr.getId()}" />
+									</p:column>
+									<p:column headerText="Full Name"
+										rendered="#{pages_users_users_edit.getPageMode()=='process'}" sortBy="#{usr.getIdpUser().getFullname()}">
+										<h:commandButton class="button-link-image folder "
+											value="#{usr.getIdpUser().getFullname()}"
+											action="#{pages_users_users_edit.browseUser(usr.id)}" />
+									</p:column>
+									
+									<p:column headerText="Username"
+										sortBy="#{usr.getIdpUser().getIdpUsername()}">
+										<h:outputText value="#{usr.getIdpUser().getIdpUsername()}" />
+									</p:column>
+									<p:column headerText="Email"
+										sortBy="#{usr.getIdpUser().getEmail()}">
+										<h:outputText value="#{usr.getIdpUser().getEmail()}" />
+									</p:column>
+									<p:column headerText="Status">
+										<h:outputText
+											value="#{usr.isActive() ? 'Active' : 'Inactive'}" />
+									</p:column>
+									<p:column headerText="Usertype"
+										sortBy="#{pages_users_users_edit.getSystemUserTypeName(usr.systemUserType.id)}">
+										<h:outputText
+											value="#{pages_users_users_edit.getSystemUserTypeName(usr.systemUserType.id)}" />
+									</p:column>
+								</p:dataTable>
+								<h:commandButton value="Activate"
+									action="#{pages_users_users_edit.updateUser}"
+									styleClass="button "
+									onclick="return confirm('Are you sure you want to activate user with the selected User(s)?')">
+									<f:param name="action" value="activate" />
+								</h:commandButton>
+								<h:commandButton value="Deactivate"
+									action="#{pages_users_users_edit.updateUser}"
+									styleClass="button "
+									onclick="return confirm('Are you sure you want to deactivate user with the selected User(s)?')">
+									<f:param name="action" value="deactivate" />
+								</h:commandButton>
+								<span style="border: 1px dashed #6ca786; padding: 10px;">
+									<h:selectOneMenu
+										value="#{pages_users_users_edit.selectSystemUserType}"
+										style="width:250px;margin-right:5px;height:1.8em;">
+										<f:selectItems
+											value="#{pages_users_users_edit.systemUserTypeList}" />
+									</h:selectOneMenu> <h:commandButton value="Modify Usertype"
+										action="#{pages_users_users_edit.updateUser}"
+										styleClass="button "
+										onclick="return confirm('Are you sure you want to modify usertype with the selected User(s)?')">
+										<f:param name="action" value="modifyUsertype" />
+									</h:commandButton> </span>
+							</p:outputPanel>
+						</div></td>
+				</tr>
+			</table>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

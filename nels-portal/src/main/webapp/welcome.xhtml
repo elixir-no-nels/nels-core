@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/template/nels-public.xhtml">
+
+	<ui:define name="page-title">
+		<h:outputText value="#{pages_welcome.getPageTitle()}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<table class="full-width">
+			<tr>
+				<td valign="top" style="width: 400px;">
+					<div class="box-header">Welcome</div>
+					<div class="box-body" style="padding-top: 0px;">
+						<p>This is NeLS portal for the administration of Norwegian
+							e-Infrastructure for Life Sciences. NeLS is one of the packages
+							of the ELIXIR.NO project.</p>
+						<h2>Features</h2>
+						<ul style="width: 300px;" class="tick-list">
+							<li>Federated login using <a href="https://www.feide.no"
+								target="_blank">FEIDE</a></li>
+							<li>Sharing of data</li>
+							<li>Bioinformatics pipelines</li>
+							<li>API for integration</li>
+						</ul>
+						<h2>Help (Support)</h2>
+						<p>
+							Send an e-mail to <a href="mailto:contact@bioinfo.no">contact@bioinfo.no</a>
+							if you have difficulty, question, remark or suggestions. You
+							should include your full name and your affiliation in your
+							request.
+						</p>
+					</div>
+				</td>
+				<td valign="top" style="padding-left: 30px;">
+					<div class="box-header">The ELIXIR.NO Project</div>
+					<div class="box-body" style="padding-top: 0px;">
+						<p>
+							The ELIXIR.NO project is coordinated by the <a
+								href="http://uib.no" target="top">University of Bergen</a> and
+							includes the Universities in <a href="http://www.uio.no"
+								target="_blank">Oslo</a>, <a href="http://www.ntnu.no"
+								target="_blank">Trondheim</a>, <a href="http://www.uit.no"
+								target="_blank">Tromsø</a> and <a href="http://www.umb.no"
+								target="_blank">Ås</a>. It receives funding from the <a
+								href="http://www.forskningsradet.no" target="_blank">Research
+								Council of Norway</a> through its research infrastructure program
+							and is also supported by the participating institutions.
+						</p>
+						<p>The project aim include:</p>
+						<ul>
+							<li>to build a Norwegian Node in the pan-European research
+								infrastructure <a href="http://www.elixir-europe.org"
+								target="_blank"> ELIXIR</a>, with the Node delivering services
+								and resources to the international community through ELIXIR on
+								selected areas
+							</li>
+							<li>to continue a National help desk serving users a broader
+								set of services and assistance; and</li>
+							<li>to provide an e-infrastructure allowing users to
+								efficiently and safely store, share, analyse and publish their
+								genomics scale data.</li>
+						</ul>
+						<div style="text-align: center;">
+							<a href="http://www.uib.no" target="_blank"><h:graphicImage
+									library="images" name="uib-logo.png"
+									style="width:76px;padding-right:20px;" /></a><a
+								href="http://www.uio.no" target="_blank"><h:graphicImage
+									library="images" name="uio-logo.png"
+									style="width:70px;padding-right:20px;" /></a> <a
+								href="http://www.uit.no" target="_blank"><h:graphicImage
+									library="images" name="uit-logo.png"
+									style="width:70px;padding-right:20px;" /></a><a
+								href="http://www.ntnu.no" target="_blank"><h:graphicImage
+									library="images" name="ntnu-logo.png"
+									style="width:70px;padding-right:20px;" /></a> <a
+								href="http://www.umb.no" target="_blank"><h:graphicImage
+									library="images" name="umb-logo.png"
+									style="height:62px;padding-right:20px;" /></a> <br /><a
+								href="http://www.forskningsradet.no" target="_blank"><h:graphicImage
+									library="images" name="research-council-logo.png" /></a>
+						</div>
+
+					</div>
+				</td>
+				<td valign="top" style="padding-left: 30px; width: 300px;">
+					<div class="box-header">Access NeLS</div>
+					<div class="box-body">
+						<h:form>
+							<h:commandButton value="Login"
+											 styleClass="button button-no-image"
+											 action="#{navigation_staticBean.showLogin()}"
+											 style="width:150px;"/>
+							<br/>
+
+							<h:commandButton value="Available Pipelines"
+											 styleClass="button button-no-image"
+											 action="#{navigation_staticBean.popUpAbsolute('https://galaxy-ntnu.bioinfo.no/www/nels_pipelines.html')}"
+											 style="width:150px;"/>
+							<br/>
+							<h:commandButton value="Terms of Use"
+											 styleClass="button button-no-image"
+											 action="#{navigation_staticBean.showTermsOfUse()}"
+											 style="width:150px;"/>
+							<br/>
+							<h:commandButton value="Help (Support)"
+											 styleClass="button button-no-image"
+											 action="#{navigation_staticBean.showHelpForm()}"
+											 style="width:150px;"/>
+
+						</h:form>
+
+						<h2>Related Links</h2>
+						<ul class="simple-list" style="">
+							<li><a href="http://bioinfo.no" target="_blank">Norwegian
+								Bioinformatics platform</a></li>
+							<li><a href="http://www.elixir-europe.org" target="_blank">ELIXIR
+								Europe</a></li>
+
+						</ul>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,12 @@
+{
+  "API_URL": "nels-master-api-url",
+  "API_KEY": "nels_master_api",
+  "API_SECRET": "nels-master-api-secret",
+  "STORAGE_URL": "nels-storage-service-url",
+  "STORAGE_KEY": "storage-key",
+  "STORAGE_SECRET": "storage-secret",
+  "SBI_URL": "storebioinfo-service-url",
+  "SBI_KEY": "sbi-key",
+  "SBI_SECRET": "sbi-secret",
+  "NOTIFY_TO": "e-mails separated by comma"
+}

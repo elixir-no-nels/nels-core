@@ -1,0 +1,16 @@
+Dear ?fullName,
+
+An account has been created for you in identity provider for the Norwegian e-Infrastructure for Life Sciences(NeLS)
+
+Use the information below to login.
+
+Web Address: ?webappUrl
+
+UserName: ?userName
+
+PassWord: ?tempPassword
+
+
++  +  +
+NeLS - Norwegian eInfrastructure for Life Sciences
+?webappUrl

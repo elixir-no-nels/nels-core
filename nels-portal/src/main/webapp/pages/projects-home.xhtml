@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure-navigator.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_projects_home.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div id="content">
+                <div class="box-header">#{pages_projects_home.getBlockHeader()}</div>
+                <div class="box-body">
+
+                    <table>
+                        <tr>
+                            <td>You are at : <h:graphicImage name="/images/folder.png"/>
+                            </td>
+                            <td>
+                                <ul id="breadcrum" class="folder">
+                                    <li>
+                                        <a href="#{facesContext.externalContext.context.contextPath}/pages/projects-home.xhtml?path=#{pages_projects_home.getPathNavigationString('Projects')}&amp;isFolder=False"
+                                           class="button-link">/Projects
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="clear: both;">
+                        <p:dataTable id="dtProjects" var="project"
+                                     value="#{pages_projects_home.userProjects}" paginator="true"
+                                     rows="10"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                     paginatorAlwaysVisible="false"
+                                     selection="#{pages_projects_home.selectedProjects}">
+
+                            <p:column selectionMode="multiple"/>
+                            <p:column headerText="Name"
+                                      sortBy="#{project.getProject().getName().toUpperCase()}">
+                                <a
+                                        href="#{facesContext.externalContext.context.contextPath}/pages/file-browse.xhtml?path=#{pages_projects_home.getPathNavigationString(pages_projects_home.getPathForProject(project.getProject().getName()))}&amp;isFolder=True"
+                                        class="button-link-image project ">#{project.getProject().getName()}</a>
+                            </p:column>
+                            <p:column headerText="Creation Date"
+                                      sortBy="#{project.getProject().getCreationDate()}">
+                                <h:outputText
+                                        value="#{project.getProject().getCreationDate()}">
+                                    <f:convertDateTime dateStyle="long"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Role in Project">
+                                <h:outputText
+                                        value="#{project.getMembership().toString()}">
+                                </h:outputText>
+                                <div class="extra-info">{#{pages_projects_home.getRoleFeatures(project.getMembership())}}</div>
+                            </p:column>
+
+
+                            <p:column  >
+                                <h:commandButton class="button-link-image group"
+                                                 value="members"
+                                                 action="#{pages_projects_projects.viewProject(project.getProject().id)}"
+                                                 rendered="#{pages_projects_home.canSeeDetails(project.getMembership())}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

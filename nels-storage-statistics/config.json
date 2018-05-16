@@ -1,0 +1,7 @@
+{
+  "master_api_url": "https://nels-host/nels-master-api",
+  "master_api_client_key": "nels_master_api",
+  "master_api_client_secret": "some-secret",
+  "projects_root_dir": "/root-folder-of-projects",
+  "users_root_dir": "/root-folder-of-users"
+}

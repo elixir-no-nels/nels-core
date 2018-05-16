@@ -1,0 +1,19 @@
+.sbi-project{
+    background-image:url(#{resource['images/sbi-project.png']}) ;
+}
+
+.sbi-dataset{
+    background-image:url(#{resource['images/sbi-dataset.png']}) ;
+}
+
+.sbi-subtype{
+    background-image:url(#{resource['images/sbi-subtype.png']}) ;
+}
+
+.sbi-send-to-sbi{
+    background-image:url(#{resource['images/sbi-send-to-sbi.png']}) ;
+}
+
+.sbi-get-from-sbi{
+    background-image:url(#{resource['images/sbi-get-from-sbi.png']}) ;
+}

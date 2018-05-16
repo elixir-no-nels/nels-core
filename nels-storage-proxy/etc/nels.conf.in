@@ -1,0 +1,9 @@
+[Parameters]
+PORT = 7603
+HOST = 127.0.0.1
+BASE_SERVICE_URL = http://localhost:7602
+USERNAME =nels_portal
+PASSWORD =nels-portal-pwd
+
+[Authorized_Clients]
+galaxy_abc = key-for-galaxy-abc

@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_projects_projectdetail_view.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <script type="text/javascript">
+            function backFromPopupPage() {
+                window.open('#{pages_projects_projectdetail_view.getReferrerUrl()}', target = "_self");
+            }
+
+        </script>
+        <h:form id="userviewForm">
+            <table class="full-width">
+                <tr>
+                    <td valign="top" style="width: 30%;">
+                        <div class="box-header">Project details</div>
+                        <div class="box-body">
+                            <table class="view-table">
+                                <tr>
+                                    <td class="field-prompt" style="width:150px;">Name:</td>
+                                    <td>
+                                        <h:outputText
+                                                value="#{pages_projects_projectdetail_view.project.getName()}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="field-prompt">Description:</td>
+                                    <td>
+                                        <h:outputText
+                                                value="#{pages_projects_projectdetail_view.project.getDescription()}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="field-prompt">Creation Date:</td>
+                                    <td>
+                                        <h:outputText value="#{pages_projects_projectdetail_view.project.getCreationDate()}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p:outputPanel
+                                    rendered="#{(session_userSessionBean.isHelpDesk() or session_userSessionBean.isAdministrator())}">
+                                <h:commandButton value="Edit Project"
+                                                 styleClass="button button-edit"
+                                                 action="#{pages_projects_projectdetail_view.cmdEditProject_Click('backFromPopupPage();')}">
+                                </h:commandButton>
+                            </p:outputPanel>
+
+
+                        </div>
+                    </td>
+                    <td valign="top" style="width: 70%;">
+                        <div class="box-header">Users</div>
+                        <div class="box-body">
+                            <p:outputPanel>
+                                <p:dataTable id="dtUsers" var="user"
+                                             value="#{pages_projects_projectdetail_view.users}" paginator="true"
+                                             rows="10"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                             paginatorAlwaysVisible="false"
+                                             selection="#{pages_projects_projectdetail_view.selectedUsers}">
+
+                                    <p:column selectionMode="multiple"
+                                              rendered="#{(session_userSessionBean.isHelpDesk() or session_userSessionBean.isAdministrator() or session_userSessionBean.isPiOfProject(pages_projects_projectdetail_view.project)) }"/>
+                                    <p:column headerText="#" sortBy="#{user.getUser().getId()}">
+                                        <h:outputText value="#{user.getUser().getId()}"/>
+                                    </p:column>
+                                    <p:column headerText="Full Name"
+                                              sortBy="#{user.getUser().getIdpUser().getFullname()}">
+                                        <h:outputText value="#{user.getUser().getIdpUser().getFullname()}"/>
+                                    </p:column>
+                                    <p:column headerText="Email">
+                                        <h:outputText value="#{user.getUser().getIdpUser().getEmail()}"/>
+                                    </p:column>
+                                    <p:column headerText="Membership"
+                                              sortBy="#{pages_projects_projectdetail_view.getProjectMembershipTypeName(user.membership.id)}">
+                                        <h:outputText
+                                                value="#{pages_projects_projectdetail_view.getProjectMembershipTypeName(user.membership.id)}"/>
+                                    </p:column>
+                                </p:dataTable>
+
+                                <p:outputPanel
+                                        rendered="#{(session_userSessionBean.isHelpDesk() or session_userSessionBean.isAdministrator() or session_userSessionBean.isPiOfProject(pages_projects_projectdetail_view.project)) }">
+                                <span style="border: 1px dashed #6ca786; padding: 10px;">
+                                    <h:selectOneMenu
+                                            value="#{pages_projects_projectdetail_view.selectedProjectMembershipType}"
+                                            style="width:200px;margin-right:5px;height:1.8em;">
+                                        <f:selectItems
+                                                value="#{pages_projects_projectdetail_view.projectMembershipTypeList}"/>
+                                    </h:selectOneMenu>
+                                    <h:commandButton value="Add New User"
+                                                     action="#{pages_projects_projectdetail_view.addUserToProject('backFromPopupPage();')}"
+                                                     styleClass="button">
+                                    </h:commandButton>
+                                    <h:commandButton value="Modify Membership"
+                                                     action="#{pages_projects_projectdetail_view.modifyUserMembershipType}"
+                                                     styleClass="button "
+                                                     onclick="return confirm('Are you sure you want to modify the membership of the selected user(s) in this project?')">
+                                    </h:commandButton>
+                                </span>
+                                    <h:commandButton value="Remove User(s)"
+                                                     action="#{pages_projects_projectdetail_view.removeUserFromProject}"
+                                                     styleClass="button button-delete"
+                                                     onclick="return confirm('Are you sure you want to remove the selected user(s) from this project?')">
+                                    </h:commandButton>
+                                </p:outputPanel>
+                            </p:outputPanel>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

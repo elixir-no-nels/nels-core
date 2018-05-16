@@ -1,0 +1,11 @@
+{
+  "encryptionKey": "some-key-shared-with-oath2-service",
+  "oauth2ServerUrl": "https://nels-url/oauth2/authorize",
+  "implicitClients": [
+    {
+      "clientId": "nels_admin_local",
+      "clientSecret": "some-secret",
+      "redirectUri": "http%3A%2F%2Flocalhost%2Fnels-admin%2Findex.html%23%2Flogin"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_idp_nels_idpusers.getPageTitle()}" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <div class="box-header">NeLS Idp Users</div>
+            <div class="box-body">
+                <p:dataTable id="dtIdpUsers" var="idpUser"
+                             value="#{pages_idp_nels_idpusers.getIdpUsers()}" paginator="true" rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50" paginatorPosition="bottom"
+                             paginatorAlwaysVisible="false"
+                             selection="#{pages_idp_nels_idpusers.selectedIdpUsers}">
+                    <p:column selectionMode="multiple" />
+                    <p:column headerText="#" sortBy="#{idpUser.id}"><h:outputText value="#{idpUser.getId()}" /></p:column>
+                    <p:column headerText="NeLS User" sortBy="#{idpUser.username}">
+                        <h:commandButton class="button-link-image button-view"
+                                         value="#{idpUser.getFullName()}"
+                                         action="#{pages_idp_nels_idpusers.viewIdpUser(idpUser.id)}" />
+                        <br/>
+                        <span class="extra-info"><h:outputText value="Username: #{idpUser.getUsername()} | Email: #{idpUser.getEmail()}" /></span>
+                    </p:column>
+                    <p:column headerText="Status" sortBy="#{idpUser.isActive}">
+                        <h:outputText value="#{idpUser.isActive() ? 'Active' : 'Inactive'}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-public.xhtml">
+
+    <ui:define name="page-title">
+        Select Your Identity Provider
+    </ui:define>
+
+    <ui:define name="content">
+
+        <table>
+            <tr>
+                <td>
+                    <div class="box-header">Login</div>
+                    <div class="box-body">
+                        <div style="padding-bottom:10px;">You need a valid user credentail in order to access NeLS resources. Select your identity provider:</div>
+                        <table>
+                            <tr>
+                                <td style="width:250px;">
+                                    <p:outputPanel rendered="#{session_userSessionBean.isTestMode()}">
+                                        <input class="button button-no-image" value="Login with FEIDE Identity"
+                                                onclick="location.href='/nels/saml/login/alias/defaultAlias?idp=https://idp-test.feide.no'"
+                                                style="width:180px;"/>
+                                    </p:outputPanel>
+                                    <p:outputPanel rendered="#{session_userSessionBean.isProdMode()}">
+                                        <input class="button button-no-image" value="Login with FEIDE Identity"
+                                                onclick="location.href='/saml/login/alias/defaultAlias?idp=https://idp.feide.no'"
+                                                style="width:180px;"/>
+                                    </p:outputPanel>
+                                </td>
+                                <td><h2>Norwegian Universities</h2>
+
+                                    <p> All Norwegian universities and many other research and education institutions provide a federated login mechanism to allow their users to utilize their own home institution login credentials to access approved online web application services.
+                                        <a href="#{session_userSessionBean.getApplicationRoot()}/idp-selection-readmore.xhtml" target="_blank" class="button-link">Read more . . .</a>
+                                    </p></td>
+                            </tr>
+                        </table>
+
+                        <table>
+                            <tr>
+                                <td style="width:250px;">
+                                    <p:outputPanel rendered="#{session_userSessionBean.isTestMode()}">
+                                             <input class="button button-no-image" value="Login with NeLS Identity"
+                                           onclick="location.href='/nels/saml/login/alias/defaultAlias?idp=https://test-fe.cbu.uib.no/idp/saml2/idp/metadata.php'"
+                                           style="width:180px;"/>
+                                     </p:outputPanel>
+                                    <p:outputPanel rendered="#{session_userSessionBean.isProdMode()}">
+                                        <input class="button button-no-image" value="Login with NeLS Identity"
+                                               onclick="location.href='/saml/login/alias/defaultAlias?idp=https://nels.bioinfo.no/idp/saml2/idp/metadata.php'"
+                                               style="width:180px;"/>
+                                    </p:outputPanel>
+
+                                    <p:outputPanel rendered="#{session_userSessionBean.isProdPrallelMode()}">
+                                        <input class="button button-no-image" value="Login with NeLS Identity (Parallel)"
+                                               onclick="location.href='/v15/saml/login/alias/defaultAlias?idp=https://nels.bioinfo.no/idp/saml2/idp/metadata.php'"
+                                               style="width:180px;"/>
+                                    </p:outputPanel>
+                                </td>
+                                <td><h2>Other Norwegian Users and International Collaborators</h2>
+
+                                    <p>For users not having access to a Norwegian university account or other academic institution utilizing FEIDE, we provide our own NeLS identity service for both national and international users.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td valign="top" style="padding-left: 30px; width: 300px;">
+                    <div class="box-header">Related Links</div>
+                    <div class="box-body">
+                        <ul class="simple-list" style="">
+                            <li><a href="http://bioinfo.no" target="_blank">Norwegian
+                                Bioinformatics platform</a></li>
+                            <li><a href="http://www.elixir-europe.org" target="_blank">ELIXIR
+                                Europe</a></li>
+
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </ui:define>
+</ui:composition>

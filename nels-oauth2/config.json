@@ -1,0 +1,21 @@
+{
+	"port": 7600,
+	"encrytion_key": "some-key-shared-with-nels-portal",
+	"portal_url": "https://nels-portal-url/welcome.xhtml",
+	"oauth2_client_credentail_clients": 
+	[
+		{
+			"client_id": "nels_public_api",
+			"client_secret": "key"
+		}
+	],
+
+	"oauth2_implicit_clients": 
+	[
+		{
+			"client_id": "nels_admin_local",
+			"client_secret": "key",
+			"redirect_uri": "http://localhost/nels-admin/index.html#/login"
+		}
+	]
+}

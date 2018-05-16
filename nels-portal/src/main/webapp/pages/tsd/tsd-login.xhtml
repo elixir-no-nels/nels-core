@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_tsd_login.getPageTitle()}"/>
+    </ui:define>
+    <ui:define name="content">
+        <table class="full-width">
+            <tr>
+                <td>
+                    <h:form id="tsd-login-form">
+                        <div class="box-header">TSD login</div>
+                        <div class="box-body" style="padding-top: 0px;">
+                            <div class="contact-form">
+                                <p>
+                                    TSD (Tjenester for Sensitive Data) is the Norwegian national infrastructure for computing and data management of sensitive data. In the NeLS portal you can transfer files to and from the TSD file lock, which is the only online entry point to get data in and out of TSD.
+                                </p>
+                                <p>
+                                    You will need to have access to an existing project in the TSD to be able to connect to your projects import and export folders in the file lock.
+                                    <a href="http://www.uio.no/tjenester/it/forskning/sensitiv/ta-i-bruk/index.html" target="_blank" class="button-link">Read more . . .</a>
+                                </p>
+                                <p>
+                                    <span>User Name :</span><br/>
+                                    <h:inputText value="#{pages_tsd_login.userName}" id="tsd-user-name"/>
+                                </p>
+
+                                <p>
+                                    <span>Password :</span><br/>
+                                    <h:inputSecret value="#{pages_tsd_login.password}"/>
+                                </p>
+
+                                <p>
+                                    <span>One-time Code :</span> <br/>
+                                    <h:inputText value="#{pages_tsd_login.otc}"/>
+                                </p>
+                            </div>
+
+                            <h:commandButton value="Connect" styleClass="button"
+                                             id="cmdConnect" action="#{pages_tsd_login.cmdConnect}"/>
+                            <h:commandButton value="Cancel" styleClass="button button-cancel"
+                                             action="#{pages_tsd_login.cmdCancel}" />
+                        </div>
+                    </h:form>
+                </td>
+            </tr>
+        </table>
+
+    </ui:define>
+
+</ui:composition>

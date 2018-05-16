@@ -1,0 +1,69 @@
+H2 {
+	color: #666644;
+	font-family: Tahoma, Arial, Helvetica;
+	font-size: 20px;
+	font-weight: normal;
+}
+
+.ui-widget-overlay {
+	opacity: 0.6;
+}
+
+.ui-datatable td,.ui-datatable th {
+	white-space: normal;
+	text-align: left;
+	border: none;
+}
+
+.ui-dt-c {
+	font-size: 14px;
+}
+
+.ui-widget-content .ui-datatable-even {
+	border: none;
+	height: 3em;
+}
+
+.ui-widget-content .ui-datatable-odd {
+	height: 3em;
+	background-color: #f2f6f9;
+	border: none;
+}
+
+.ui-datatable-even:hover,.ui-datatable-odd:hover {
+	background-color: #efefef;
+}
+
+.ui-datatable .ui-datatable-data td,.ui-datatable .ui-datatable-data-empty td
+	{
+	border: none;
+}
+
+.ui-datatable table {
+	border: 1px solid #C8D1D8;
+}
+
+.ui-datatable-data {
+    border: 1px solid #C8D1D8;
+}
+
+.ui-datatable tr.ui-state-highlight {
+    background: none repeat scroll 0 0 #D3D6C7;
+    border-top: 1px solid #FFFFFF;
+    box-shadow: none;
+    color: inherit;
+    text-shadow: none;
+}
+.ui-datatable .ui-sortable-column .ui-dt-c{
+	padding-left:20px;
+}
+
+.visible-progress{
+    background-image:url(#{resource['images/progress.gif']}) ;
+    padding-bottom:10px;
+    padding-top:20px;
+    background-repeat:no-repeat;
+}
+.hidden-progress{
+    display:none;
+}

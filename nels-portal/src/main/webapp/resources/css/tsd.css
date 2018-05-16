@@ -1,0 +1,22 @@
+.panel {
+    float: left;
+    width: 50%;
+}
+
+.path {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.path li {
+    float: left;
+}
+
+.transfer-left {
+    background-image:url(#{resource['images/transfer-left.png']});
+}
+
+.transfer-right {
+    background-image:url(#{resource['images/transfer-right.png']});
+}

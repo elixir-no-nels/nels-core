@@ -1,0 +1,242 @@
+<div class="container-fluid">
+    <div class="alert {{nelsAlertService.alert.css}} "
+         style="margin-top: 3px;" ng-show="nelsAlertService.alert.show">
+        <button type="button" class="close"
+                ng-click="nelsAlertService.alert.show = !nelsAlertService.alert.show"><span
+                class="glyphicon glyphicon-remove"></span>
+        </button>
+        <strong>{{nelsAlertService.alert.status}}</strong>
+        {{nelsAlertService.alert.message}}&nbsp;
+    </div>
+    <div class="row" style="margin-top: 20px;margin-bottom:50px;">
+        <div class="col-sm-6">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>NeLS <span class="pull-right">Total Size <span
+                            class="badge">{{$ctrl.nels_disk_total |bytes}}</span></span></h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="nels-block">
+                                <span class="text-muted"> Personal Area</span>
+                                <h3>{{$ctrl.nels_used_personal |bytes}}</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="nels-block">
+                                <span class="text-muted">
+                                    Project Area
+                                </span>
+                                <h3>{{$ctrl.nels_used_project |bytes}}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ui-chart="$ctrl.nelsChart" chart-options="$ctrl.nelsChartOptions"></div>
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <span
+                            class="text-muted">&nbsp;Disk sizes computed on: {{$ctrl.nels_disk_usage_last_update *1000 |date : 'dd MMM yyyy'}}</span>
+                    </div>
+                    <uib-tabset>
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <span class="glyphicon glyphicon-user"></span>&nbsp;Users <span
+                                    class="badge">{{$ctrl.user_count}}</span>
+                            </uib-tab-heading>
+
+                            <h3>Top {{$ctrl.top_nels_users.length}} disk users</h3>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Disk</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="user in $ctrl.top_nels_users">
+                                    <td>{{user.name}}</td>
+                                    <td>
+                                        <small class="text-muted">{{user.disk_usage | bytes}}
+                                        </small>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr></tr>
+                                </tfoot>
+                            </table>
+
+
+                            <a class="btn btn-primary pull-right" ng-click="$ctrl.viewUsers()">View
+                                more </a>
+                        </uib-tab>
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Projects
+                                <span class="badge">{{$ctrl.nels_project_count}}</span>
+                            </uib-tab-heading>
+
+                            <h3>Top {{$ctrl.top_nels_projects.length}} disk projects</h3>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Disk</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="project in $ctrl.top_nels_projects">
+                                    <td>{{project.name}}</td>
+                                    <td>
+                                        <small class="text-muted">{{project.disk_usage | bytes}}
+                                        </small>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr></tr>
+                                </tfoot>
+                            </table>
+
+                            <a class="btn btn-primary pull-right" ng-click="$ctrl.viewNelsProjects()">View more </a>
+                        </uib-tab>
+                    </uib-tabset>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Storebioinfo <span class="pull-right">Block Quota <span class="badge"> {{quotaPersistenceService.blockQuota.value |bytes}}</span>
+                    </span></h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="nels-block">
+                                <span class="text-muted">Allocated</span>
+                                <h3>{{$ctrl.sbi_quota_total_allocated |bytes}}</h3>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="nels-block nels-block-{{$ctrl.percentageCss($ctrl.quotaAllocationPercentage())}}">
+                                <span class="text-muted">
+                                    Allocation
+                                </span>
+                                <h3>{{$ctrl.quotaAllocationPercentage()}} %</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="nels-block">
+                                <span class="text-muted">
+                                    Used
+                                </span>
+                                <h3>{{$ctrl.sbi_quota_total_used |bytes}}</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="nels-block nels-block-{{$ctrl.percentageCss($ctrl.quotaUsagePercentage())}}">
+                                <span class="text-muted">
+                                    Usage
+                                </span>
+                                <h3>{{$ctrl.quotaUsagePercentage()}} %</h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div ui-chart="quotaChart" chart-options="quotaChartOptions"></div>
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <span
+                            class="text-muted">&nbsp;Disk sizes computed on: {{$ctrl.disk_usage_last_update | date : 'dd MMM yyyy' }}</span>
+                    </div>
+                    <uib-tabset>
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <span class="glyphicon glyphicon-briefcase"></span>&nbsp;Quota <span
+                                    class="badge">{{$ctrl.sbi_quota_count}}</span>
+
+                            </uib-tab-heading>
+
+
+                            <h3>Top {{$ctrl.top_used_quotas.length}} largest </h3>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Allocated</th>
+                                    <th>Used</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="quota in $ctrl.top_used_quotas">
+                                    <td>
+                                        <a ng-click="quotaNavigatorService.viewQuotaDetail('app.sbiQuota.detail', quota.id)"
+                                           class="nels-clickable"> {{quota.name}}</a></td>
+                                    <td>
+                                        <small class="text-muted">{{quota.quota_size | bytes}}</small>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">{{quota.used_size | bytes}}</small>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr></tr>
+                                </tfoot>
+                            </table>
+                            <a class="btn btn-primary pull-right" ng-click="$ctrl.viewSbiQuotas()">View more </a>
+
+                        </uib-tab>
+
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <span class="glyphicon glyphicon-folder-open"></span>&nbsp;Projects <span
+                                    class="badge">{{$ctrl.sbi_project_count}}</span>
+                            </uib-tab-heading>
+                            <h3>Top {{$ctrl.top_used_sbi_projects.length}} largest</h3>
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Size</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-ng-repeat="project in $ctrl.top_used_sbi_projects">
+                                    <td><a class="nels-clickable"
+                                           ng-click="sbiProjectNavigatorService.viewProjectDetail('app.sbiProjects.detail', project.id)">
+                                        {{project.name}}</a></td>
+                                    <td>
+                                        <small class="text-muted">{{project.disk_usage | bytes}}</small>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr></tr>
+                                </tfoot>
+                            </table>
+                            <a class="btn btn-primary pull-right" ng-click="$ctrl.viewSbiProjects()">View more </a>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+</div>

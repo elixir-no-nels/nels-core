@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" ID="test-fe.cbu.uib.no.nels" entityID="test-fe.cbu.uib.no.nels">
+	<md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+		<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://test-fe.cbu.uib.no/nels/saml/SingleLogout/alias/defaultAlias"/>
+		<md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://test-fe.cbu.uib.no/nels/saml/SSO/alias/defaultAlias" index="0"/>
+	</md:SPSSODescriptor>
+	<md:ContactPerson contactType="technical">
+		<md:GivenName>Kidane</md:GivenName>
+		<md:SurName>Tekle</md:SurName>
+		<md:EmailAddress>kidane.tekle@cbu.uib.no</md:EmailAddress>
+	</md:ContactPerson>
+</md:EntityDescriptor>

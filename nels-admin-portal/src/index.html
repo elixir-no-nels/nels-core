@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="NeLSApp">
+
+<head>
+    <title>NeLS Admin Portal</title>
+    <!-- build:style -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="assets/css/dashboard.css" rel="stylesheet"/>
+    <link href="assets/css/loading-bar.css" rel="stylesheet"/>
+    <link href="assets/css/nels.css" rel="stylesheet"/>
+    <link href="assets/css/nels-sidebar.css" rel="stylesheet"/>
+    <link href="assets/css/select.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="assets/libs/jquery.jqplot.min.css"/>
+    <!-- endbuild -->
+    <link href="assets/images/favicon.ico" rel="icon"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta charset="UTF-8"/>
+
+    <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT"/>
+</head>
+<body>
+
+<menu style="margin-top: 0; margin-bottom: 0"></menu>
+<div ui-view="content">
+</div>
+
+<footer></footer>
+</body>
+
+
+<!-- build:vendor -->
+<script src="assets/libs/jquery.min.js"></script>
+<script src="assets/libs/jquery.jqplot.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="assets/libs/jqplot.pieRenderer.js" type="text/javascript"
+        charset="utf-8"></script>
+<script src="assets/libs/jqplot.donutRenderer.js" type="text/javascript"
+        charset="utf-8"></script>
+<script src="assets/libs/angular.min.js"></script>
+<script src="assets/libs/angular-ui-router.min.js"></script>
+<script src="assets/libs/angular-local-storage.min.js"></script>
+<script src="assets/libs/angular-animate.min.js"></script>
+<script src="assets/libs/angular-touch.min.js"></script>
+<script src="assets/libs/loading-bar.min.js"></script>
+<script src="assets/libs/ui-bootstrap-tpls-1.3.2.min.js"></script>
+<script src="assets/libs/angular-sanitize.min.js"></script>
+<script src="assets/libs/select.js"></script>
+<script src="assets/libs/ui-chart.min.js"></script>
+<script src="assets/libs/matomo.js"></script>
+<!-- endbuild -->
+
+<!-- build:source -->
+<script src="app/route.js"></script>
+<script src="app/nels.js"></script>
+<script src="app/alert.js"></script>
+
+<script src="app/shared/core/confirmAction.js"></script>
+<script src="app/shared/menu/menu.js"></script>
+<script src="app/shared/footer/footer.js"></script>
+<script src="app/shared/welcome/welcome.js"></script>
+<script src="app/shared/login/login.js"></script>
+<script src="app/shared/submenu/submenu.js"></script>
+<script src="app/shared/pagination/pagination.js"></script>
+
+<!-- app features -->
+<script src="app/components/dashboard/dashboard.js"></script>
+<script src="app/components/dashboard/dashboardPersistence.js"></script>
+<script src="app/components/nels/user/userList.js"></script>
+<script src="app/components/nels/user/userNavigator.js"></script>
+<script src="app/components/nels/user/userPersistence.js"></script>
+<script src="app/components/nels/project/nelsProjectList.js"></script>
+<script src="app/components/nels/project/nelsProjectNavigator.js"></script>
+<script src="app/components/nels/project/nelsProjectPersistence.js"></script>
+<script src="app/components/sbi/quota/quotaList.js"></script>
+<script src="app/components/sbi/quota/quotaNavigator.js"></script>
+<script src="app/components/sbi/quota/quotaPersistence.js"></script>
+<script src="app/components/sbi/project/sbiProjectList.js"></script>
+<script src="app/components/sbi/project/sbiProjectNavigator.js"></script>
+<script src="app/components/sbi/project/sbiProjectPersistence.js"></script>
+<script src="app/components/sbi/user/sbiUserPersistence.js"></script>
+<script src="app/components/sbi/project/sbiProjectDetail.js"></script>
+<script src="app/components/sbi/project/addUser.js"></script>
+<script src="app/components/sbi/quota/createSbiProject.js"></script>
+<script src="app/components/sbi/quota/createQuota.js"></script>
+<script src="app/components/sbi/quota/editQuota.js"></script>
+<script src="app/components/sbi/quota/editBlockQuota.js"></script>
+<script src="app/components/sbi/project/editSbiProject.js"></script>
+<script src="app/components/sbi/quota/quotaDetail.js"></script>
+<script src="app/components/sbi/datasettype/sbiDataSetTypeList.js"></script>
+<script src="app/components/sbi/datasettype/sbiDataSetTypeNavigator.js"></script>
+<script src="app/components/sbi/datasettype/sbiDataSetTypePersistence.js"></script>
+<script src="app/components/sbi/datasettype/createSbiDataSetType.js"></script>
+<!-- endbuild -->
+</html>

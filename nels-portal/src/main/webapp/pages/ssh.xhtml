@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_ssh.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="ssh-details">
+            <div class="box-header">Connection Details</div>
+            <div class="box-body">
+                <div class="block-header">SSH Details</div>
+                <table class="view-table">
+                    <tr>
+                        <td style="width: 120px;" class="field-prompt">Host</td>
+                        <td style="font-weight: bold;"><h:outputText
+                                value="#{pages_ssh.getHost()}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 120px;" class="field-prompt">Fingerprint</td>
+                        <td style="font-weight: bold;"><h:outputText
+                                value="#{pages_ssh.getFingerprint()}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="field-prompt">Username</td>
+                        <td style="font-weight: bold;"><h:outputText
+                                value="#{pages_ssh.getUsername()}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">SSH Private Key<br/><span class="extra-info">You can use this SSH key to connect to the storage server via any SSH client</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><h:commandButton value="Download Key"
+                                             styleClass="button button-download"
+                                             action="#{pages_ssh.cmdDownloadKey_Click()}"
+                                             /></td>
+                    </tr>
+                </table>
+
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

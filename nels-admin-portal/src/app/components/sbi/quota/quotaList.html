@@ -1,0 +1,127 @@
+<nav class="navbar navbar-fixed-top  nels-sub-menu" role="navigation">
+
+    <div>
+        <button type="button" class="btn btn-link" ng-click="$ctrl.add()">
+            <span class="glyphicon glyphicon-plus"></span>&nbsp;Add
+        </button>
+
+        <input type="text"
+               data-ng-model="$ctrl.searchText"
+               placeholder="Search Text"
+               ng-change="$ctrl.search()"
+               ng-model-options="{debounce:500}"
+        />
+
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 50px">
+
+    <h2>Sbi Quotas</h2>
+    <div data-ng-show="$ctrl.quotas.length==0">No records</div>
+    <div class="alert {{nelsAlertService.alert.css}} pull-right"
+         style="margin-top: 3px;" ng-show="nelsAlertService.alert.show">
+        <button type="button" class="close"
+                ng-click="nelsAlertService.alert.show = !nelsAlertService.alert.show"><span
+                class="glyphicon glyphicon-remove"></span>
+        </button>
+        <strong>{{nelsAlertService.alert.status}}</strong>
+        {{nelsAlertService.alert.message}}&nbsp;
+    </div>
+
+
+    <table class="table table-striped" data-ng-show="$ctrl.quotas.length >0">
+        <thead>
+        <tr>
+            <th class="col-sm-3"><a ng-click="$ctrl.sortBy('name')" class="nels-clickable">Name</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'name'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th class="col-sm-1"><a ng-click="$ctrl.sortBy('creator')" class="nels-clickable">Creator</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'creator'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th class="col-sm-1"><a ng-click="$ctrl.sortBy('created')" class="nels-clickable">Creation Date</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'created'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th class="col-sm-1"><a ng-click="$ctrl.sortBy('num_of_projects')" class="nels-clickable">Projects</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'num_of_projects'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th class="col-sm-1"><a ng-click="$ctrl.sortBy('quota_size')" class="nels-clickable">Quota</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'quota_size'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th class="col-sm-1"><a ng-click="$ctrl.sortBy('used_size')" class="nels-clickable">Used</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'used_size'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th class="col-sm-2">
+                <a ng-click="$ctrl.sortBy('utilization')" class="nels-clickable">Utilization</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'utilization'"
+                      ng-class="{reverse: $ctrl.reverse}"></span>
+            </th>
+            <th class="col-sm-1"></th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr data-ng-repeat="quota in $ctrl.quotas | orderBy:sortColumn:reverse" class="nels-clickable">
+            <td><a ng-click="$ctrl.getQuotaDetail(quota)"><span ng-bind-html="quota.name | highlight :$ctrl.searchText"></span></a> <br/>
+                <small class="text-muted"><span ng-bind-html="quota.description | highlight :$ctrl.searchText"></span></small>
+            </td>
+            <td><span ng-bind-html="quota.creator | highlight :$ctrl.searchText"></span></td>
+            <td>{{quota.created | date : 'dd MMM yyyy'}}</td>
+            <td>
+
+                <div><span ng-if="quota.num_of_projects>0">{{quota.num_of_projects}}</span></div>
+                <div><span ng-if="quota.num_of_projects<=0">-</span></div>
+            </td>
+            <td>
+                <div ng-if="quota.quota_size >0 ">{{quota.quota_size | bytes}}</div>
+                <div ng-if="quota.quota_size <= 0 ">-</div>
+            </td>
+            <td>
+                <div ng-if="quota.used_size >0 ">{{quota.used_size | bytes}}</div>
+                <div ng-if="quota.used_size <= 0 ">-</div>
+            </td>
+            <td>
+                <uib-progressbar value="$ctrl.getPercentage(quota)"
+                                 type="{{$ctrl.getPercentageCss(quota)}}"></uib-progressbar>
+            </td>
+            <td><a ng-click="$ctrl.createSbiProject(quota);$event.stopPropagation()" class="btn btn-link">
+                <span class="glyphicon glyphicon-plus" uib-tooltip="Create new project in this Quota"></span>
+            </a></td>
+        </tr>
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <td colspan="3">
+                <span class="text-primary pull-right">Sum</span>
+            </td>
+
+            <td class="text-primary">{{$ctrl.total_num_projects}}</td>
+            <td class="text-primary">{{$ctrl.total_quota | bytes}}</td>
+            <td class="text-primary">{{$ctrl.total_used_quota | bytes}}</td>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <pagination get-previous-class="$ctrl.getPreviousClass()"
+                            previous-page="$ctrl.previousPage()"
+                            get-pages="$ctrl.getPages()"
+                            get-page-class="$ctrl.getPageClass(value)"
+                            set-current-page="$ctrl.setCurrentPage(value)"
+                            get-next-class="$ctrl.getNextClass()"
+                            next-page="$ctrl.nextPage()"
+                            start-number="$ctrl.startNumber()"
+                            end-number="$ctrl.endNumber()"
+                            get-total-size="$ctrl.getTotalSize()"
+                            change="$ctrl.change(value)"
+                            first-page="$ctrl.firstPage()"
+                            last-page="$ctrl.lastPage()"></pagination>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+</div>
+</div>
+</div>

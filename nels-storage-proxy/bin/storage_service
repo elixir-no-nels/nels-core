@@ -1,0 +1,19 @@
+#!/home/kidane/cbu-code/nels-python/nels-storage-proxy/.venv/bin/python
+
+import sys
+sys.path[0:0] = [
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/src',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/.venv/lib/python2.7/site-packages',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/MarkupSafe-1.0-py2.7-linux-x86_64.egg',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/Werkzeug-0.14.1-py2.7.egg',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/Jinja2-2.10-py2.7.egg',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/Flask_HTTPAuth-2.7.0-py2.7.egg',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/Flask-0.10.1-py2.7.egg',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/requests-2.9.1-py2.7.egg',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/itsdangerous-0.24-py2.7.egg',
+  ]
+
+import nels.storage.app
+
+if __name__ == '__main__':
+    sys.exit(nels.storage.app.main())

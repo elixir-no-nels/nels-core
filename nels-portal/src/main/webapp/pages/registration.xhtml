@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_registration.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form rendered="#{!pages_registration.isSubmitted()}"
+                id="helpForm">
+            <div class="box-header">Request for NeLS Account</div>
+            <div class="box-body" style="padding-top:0px;margin-left:10px;">
+
+                <div class="contact-form">
+                    <p>
+                        <span>First Name :</span><br/>
+                        <h:inputText id="txtFirstName" value="#{pages_registration.firstName}"/>*
+                    </p>
+
+                    <p>
+                        <span>Last Name :</span><br/>
+                        <h:inputText id="txtLastName" value="#{pages_registration.lastName}"/>*
+                    </p>
+
+                    <p>
+                        <span>Email :</span><br/>
+                        <h:inputText id="txtEmail" value="#{pages_registration.email}"/>*
+                    </p>
+
+                    <p>
+                        <span>Affiliation :</span><br/>
+                        <h:inputText id="txtAffiliation" value="#{pages_registration.affiliation}"/>*
+                    </p>
+
+                    <p>
+                        <span class="field-prompt">Usage Description :</span><br/>
+                        <h:inputTextarea id="txtUsageDescription" value="#{pages_registration.usageDescription}">
+                        </h:inputTextarea>
+                        *
+
+                    </p>
+
+                </div>
+                <h:commandButton value="Submit" styleClass="button"
+                                 id="cmdSubmit" action="#{pages_registration.cmdSubmit_Click}"/>
+            </div>
+        </h:form>
+        <p:outputPanel rendered="#{pages_registration.isSubmitted()}">
+
+            <div class="box-header">Request submitted!</div>
+
+            <div style="color: #29598E; font-size: 16px; padding-left: 15px;"
+                 class="box-body">
+                <b>You will be notified by e-mail when your request has been processed</b>
+            </div>
+
+        </p:outputPanel>
+    </ui:define>
+</ui:composition>

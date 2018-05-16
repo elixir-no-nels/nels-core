@@ -1,0 +1,50 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="ebqctrl.cancelClick()"><span
+                class="glyphicon glyphicon-remove"></span>
+        </button>
+        <h3 class="modal-title">{{ebqctrl.modalTitle}}</h3>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="form-group required">
+                <label class="control-label">Quota size</label>
+                <div class="row">
+                    <div class="form-group col-sm-3">
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="quota" placeholder="Quota size"
+                                   ng-model="ebqctrl.converted_quota_size">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-2">
+                        <div class="input-group">
+                            <ui-select class="form" ng-model="ebqctrl.unit" search-enabled="false">
+                                <ui-select-match>
+                                    <span ng-bind="ebqctrl.unit"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in ['PB', 'GB', 'TB']">
+                                    <span ng-bind="item"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group required">
+                <label for="comment" class="control-label">Comment</label>
+                <textarea class="form-control" id="comment" placeholder="Comment" rows="5"
+                          ng-model="ebqctrl.comment"></textarea>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-disabled="!ebqctrl.isClickable()" ng-click="ebqctrl.okClick()" class="btn btn-primary pull-right"
+                type="button">
+            <span class="glyphicon glyphicon-ok">OK</span>
+        </button>
+    </div>
+</div>

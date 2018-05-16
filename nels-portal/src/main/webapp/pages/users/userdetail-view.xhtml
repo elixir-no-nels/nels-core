@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/template/nels-secure.xhtml">
+
+	<ui:define name="page-title">
+		<h:outputText value="#{pages_users_userdetail_view.getPageTitle()}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="userviewForm">
+			<table class="full-width">
+				<tr>
+					<td valign="top" style="width: 40%;">
+						<div class="box-header">User details</div>
+						<div class="box-body">
+							<table class="view-table" style="min-width:350px;">
+								<tr>
+									<td class="field-prompt" style="width:150px;">NeLS ID:</td>
+									<td><h:outputText
+											value="#{pages_users_userdetail_view.user.getId()}" />
+									</td>
+								</tr>
+								<tr>
+									<td class="field-prompt">Full Name:</td>
+									<td><h:outputText
+											value="#{pages_users_userdetail_view.user.getIdpUser().getFullname()}" />
+									</td>
+								</tr>
+								<tr>
+									<td class="field-prompt">IDP Username:</td>
+									<td><h:outputText
+											value="#{pages_users_userdetail_view.user.getIdpUser().getIdpUsername()}" />
+									</td>
+								</tr>
+								<tr>
+									<td class="field-prompt">Email:</td>
+									<td><h:outputText
+											value="#{pages_users_userdetail_view.user.getIdpUser().getEmail()}" />
+									</td>
+								</tr>
+								<tr>
+									<td class="field-prompt">Status:</td>
+									<td><h:outputText
+											value="#{pages_users_userdetail_view.user.isActive() ? 'Active' : 'Inactive'}" />
+									</td>
+								</tr>
+								<tr>
+									<td class="field-prompt">User Type:</td>
+									<td><h:outputText
+											value="#{pages_users_userdetail_view.getSystemUserTypeName(pages_users_userdetail_view.user.getSystemUserType().getId())}" />
+									</td>
+								</tr>
+								<tr>
+									<td class="field-prompt">Storage username:</td>
+									<td><h:outputText
+											value="#{pages_users_userdetail_view.getStorageUsername()}" />
+									</td>
+								</tr>
+							</table>
+						</div></td>
+					<td valign="top" style="width: 60%;">
+						<div class="box-header">Projects</div>
+						<div class="box-body">
+							<p:outputPanel>
+								<p:dataTable id="dtProjects" var="project"
+									value="#{pages_users_userdetail_view.projects}"
+									paginator="true" rows="10"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+									rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+									paginatorAlwaysVisible="false"
+									selection="#{pages_users_userdetail_view.selectedProjects}">
+
+									<p:column selectionMode="multiple" />
+									<p:column headerText="#"
+										sortBy="#{project.getProject().getId()}">
+										<h:outputText value="#{project.getProject().getId()}" />
+									</p:column>
+									<p:column headerText="Name"
+										sortBy="#{project.getProject().getName()}">
+										<h:outputText value="#{project.getProject().getName()}" />
+									</p:column>
+									<p:column headerText="Membership"
+										sortBy="#{pages_users_userdetail_view.getProjectMembershipTypeName(project.membership.id)}">
+										<h:outputText
+											value="#{pages_users_userdetail_view.getProjectMembershipTypeName(project.membership.id)}" />
+									</p:column>
+								</p:dataTable>
+
+								<span style="border: 1px dashed #6ca786; padding: 10px;">
+									<h:selectOneMenu
+										value="#{pages_users_userdetail_view.selectedProjectMembershipType}"
+										style="width:100;margin-right:5px;height:1.8em;">
+										<f:selectItems
+											value="#{pages_users_userdetail_view.projectMembershipTypeList}" />
+									</h:selectOneMenu> <h:commandButton value="Assign To New Project"
+										action="#{pages_users_userdetail_view.assignToNewProject('')}"
+										styleClass="button">
+									</h:commandButton> <h:commandButton value="Modify Membership"
+										action="#{pages_users_userdetail_view.modifyUserMembershipType}"
+										styleClass="button "
+										onclick="return confirm('Are you sure you want to modify user membership in the selected Project(s)?')">
+									</h:commandButton> </span>
+
+								<h:commandButton value="Remove From Project(s)"
+									action="#{pages_users_userdetail_view.removeUserFromProject}"
+									styleClass="button button-delete"
+									onclick="return confirm('Are you sure you want to remove this user from the selected Project(s)?')">
+								</h:commandButton>
+							</p:outputPanel>
+						</div></td>
+				</tr>
+			</table>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

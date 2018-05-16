@@ -1,0 +1,182 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure-navigator.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_file_browse.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="content">
+            <h:form>
+                <div class="box-header">#{pages_file_browse.getBlockHeader()}</div>
+                <div class="box-body">
+
+                    <table>
+                        <tr>
+                            <td>You are at : <h:graphicImage name="/images/folder.png"/>
+                            </td>
+                            <td>
+                                <ul id="breadcrum" class="folder">
+                                    <ui:repeat var="nav" value="#{pages_file_browse.getNavStack()}">
+
+                                        <li>
+                                            <h:link styleClass="button-link"
+                                                    value="/#{pages_file_browse.getLastPath(nav)}"
+                                                    outcome="projects-home"
+                                                    rendered="#{pages_file_browse.getLastPath(nav) == 'Projects'}">
+                                                <f:param name="path"
+                                                         value="#{pages_file_browse.getPathNavigationString(nav)}"/>
+                                                <f:param name="isFolder" value="False"/>
+                                            </h:link>
+                                            <h:link styleClass="button-link"
+                                                    value="/#{pages_file_browse.getLastPath(nav)}"
+                                                    outcome="file-browse"
+                                                    rendered="#{pages_file_browse.getLastPath(nav) != 'Projects'}">
+                                                <f:param name="path"
+                                                         value="#{pages_file_browse.getPathNavigationString(nav)}"/>
+                                                <f:param name="isFolder" value="True"/>
+                                            </h:link>
+                                        </li>
+                                    </ui:repeat>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <p:remoteCommand name="refresh_fileFolders"
+                                     action="#{pages_file_browse.jobCompletedAsyncRefresh()}"
+                                     id="refresh_fileFolders" process="@this"
+                                     update="fileFolders" />
+                    <div style="clear: both;">
+                        <p:dataTable id="fileFolders" var="fileFolder"
+                                     value="#{pages_file_browse.fileFolders}" paginator="true"
+                                     rows="10"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                     paginatorAlwaysVisible="false"
+                                     selection="#{pages_file_browse.selectedFileFolders}"
+                                     rendered="#{pages_file_browse.isFileBrowserVisible()}">
+                            <p:column selectionMode="multiple"
+                                      disabledSelection="#{(session_userSessionBean.isGalaxyModePut() and !fileFolder.isFolder()) or (session_userSessionBean.isGalaxyModeGet() and fileFolder.isFolder())}"
+                                      styleClass="#{(pages_file_browse.isItemCut(fileFolder.getPath()) ==  true)? 'cut-item':''}"/>
+                            <p:column headerText="Name" style="line-height:2;"
+                                      sortBy="#{fileFolder.name}">
+                                <h:outputLink value="#{facesContext.externalContext.context.contextPath}/pages/file-browse.xhtml?path=#{pages_file_browse.getPathNavigationString(fileFolder.path)}&amp;isFolder=#{fileFolder.isFolder()}" styleClass="button-link-image #{fileFolder.getCss()} #{(pages_file_browse.isItemCut(fileFolder.getPath()) ==  true)? 'cut-item':''}" rendered="#{fileFolder.isFolder()}">#{fileFolder.name}</h:outputLink>
+                                <h:outputLink value="#{facesContext.externalContext.context.contextPath}/pages/storage/download.xhtml?path=#{pages_file_browse.getPathNavigationString(fileFolder.path)}&amp;isFolder=#{fileFolder.isFolder()}" styleClass="button-link-image #{fileFolder.getCss()} #{(pages_file_browse.isItemCut(fileFolder.getPath()) ==  true)? 'cut-item':''}" rendered="#{not fileFolder.isFolder()}">#{fileFolder.name}</h:outputLink>
+
+
+                            </p:column>
+                            <p:column headerText="" >
+
+                                <h:outputLink
+                                        value="#{facesContext.externalContext.context.contextPath}/pages/storage/download.xhtml?path=#{pages_file_browse.getPathNavigationString(fileFolder.path)}&amp;isFolder=#{fileFolder.isFolder()}"
+                                        styleClass="button-link-image #{fileFolder.getDownloadCss()}" rendered="#{fileFolder.isFolder()}">Download</h:outputLink>
+                            </p:column>
+                            <p:column headerText="Size" sortBy="#{fileFolder.size}">
+
+                                <h:outputText rendered="#{not fileFolder.isEmptyFolder()}"
+                                        value="#{pages_file_browse.getFileSizeForDisplay(fileFolder.size)}"
+                                        styleClass="#{(pages_file_browse.isItemCut(fileFolder.getPath()) ==  true)? 'cut-item':''}"/>
+                            </p:column>
+                            <p:column headerText="Modified"
+                                      sortBy="#{fileFolder.lastUpdate}">
+                                <h:outputText value="#{fileFolder.lastUpdate}"
+                                              styleClass="#{(pages_file_browse.isItemCut(fileFolder.getPath()) ==  true)? 'cut-item':''}">
+                                    <f:convertDateTime dateStyle="long"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column
+                                    rendered="#{pages_file_browse.isEditDeletePermitted()}">
+                                <h:commandButton value="Rename"
+                                                 action="#{pages_file_browse.cmdRename_Click(fileFolder.name, 'goToUrlBeforePopup();')}"
+                                                 styleClass="button-link-image rename #{(pages_file_browse.isItemCut(fileFolder.getPath()) ==  true)? 'cut-item':''}"/>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                    <div>
+
+                        <p:outputPanel id="galaxy_buttons"
+                                       rendered="#{session_userSessionBean.isFromGalaxy()}">
+                            <h:commandButton value="Send to GALAXY"
+                                             styleClass="button galaxy"
+                                             action="#{pages_file_browse.cmdSendtoGalaxy_Click()}"
+                                             rendered="#{session_userSessionBean.isGalaxyModeGet()}"/>
+
+                            <h:commandButton value="Use current folder"
+                                             styleClass="button galaxy"
+                                             action="#{pages_file_browse.cmdGalaxySave_Click()}"
+                                             rendered="#{session_userSessionBean.isGalaxyModePut()}"/>
+
+                        </p:outputPanel>
+                        <script type="text/javascript">
+                            function goToUrlBeforePopup() {
+                                window
+                                        .open(
+                                        '#{pages_file_browse.getRequestUrl()}',
+                                        target = "_self");
+                            }
+                        </script>
+                        <p:outputPanel id="process_buttons"
+                                       rendered="#{pages_file_browse.isFileFolderButtonsVisible()}">
+
+
+                            <h:commandButton value="New File" styleClass="button file-new"
+                                             action="#{pages_file_browse.cmdAddFile_Click('goToUrlBeforePopup();')}"
+                                             rendered="#{not session_userSessionBean.isFromGalaxy() }"/>
+
+                            <h:commandButton value="New Folder"
+                                             styleClass="button folder-new"
+                                             action="#{pages_file_browse.cmdAddFolder_Click('goToUrlBeforePopup();')}"
+                                             rendered="#{not session_userSessionBean.isGalaxyModeGet()}"/>
+
+                            <p:outputPanel id="file_shuffle_buttons"
+                                           rendered="#{pages_file_browse.isFileShuffleButtonsVisible()}">
+                                <h:commandButton value="Copy" styleClass="button button-copy"
+                                                 action="#{pages_file_browse.cmdCopy_Click()}"
+                                                 rendered="#{not session_userSessionBean.isGalaxyModeGet()}"/>
+
+                                <h:commandButton value="Cut" styleClass="button button-cut"
+                                                 action="#{pages_file_browse.cmdCut_Click()}"
+                                                 rendered="#{not session_userSessionBean.isGalaxyModeGet() and pages_file_browse.isEditDeletePermitted()}"/>
+
+
+                                <h:commandButton value="Paste"
+                                                 styleClass="button button-paste  #{(pages_file_browse.isPastePermitted() ==  false)? 'button-disabled':''}"
+                                                 disabled="#{not pages_file_browse.isPastePermitted()}"
+                                                 action="#{pages_file_browse.cmdPaste_Click()}"
+                                                 rendered="#{not session_userSessionBean.isGalaxyModeGet()}"/>
+
+                            </p:outputPanel>
+                            <h:commandButton value="Delete Selected"
+                                             styleClass="button button-delete"
+                                             style="float:right;margin-right:0px;"
+                                             onclick="return confirm('Are you sure you want to Delete the selected files/folders ?')"
+                                             action="#{pages_file_browse.cmdDelete_Click}"
+                                             rendered="#{not session_userSessionBean.isGalaxyModeGet() and pages_file_browse.isEditDeletePermitted()}"/>
+
+                        </p:outputPanel>
+                    </div>
+                </div>
+            </h:form>
+            <p:outputPanel rendered="#{pages_file_browse.isSendToGalaxy()}">
+                <form id="galaxyForm"
+                      action="#{session_userSessionBean.getGalaxyCallBackUrl()}"
+                      method="post" target="_top">
+                    <input type="hidden" name="nelsId"
+                           value="#{session_userSessionBean.userBeingViewed.id}"/> <input
+                        type="hidden" name="selectedFiles"
+                        value="#{pages_file_browse.getGalaxyFilesList()}"/>
+                </form>
+                <script type="text/javascript">
+                    document.getElementById("galaxyForm").submit();
+                </script>
+            </p:outputPanel>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure.xhtml">
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //alert($('.animated').length);
+            var len = $('.animated').length;
+            var index;
+            for (index = 0; index &lt; len; index++) {
+                var name = 'pbAjax'.concat(index);
+                //alert(name);
+                PF(name).start();
+            }
+        });
+    </script>
+
+
+    <ui:define name="navigator">
+        <td valign="top" style="width: 180px;">
+            <h:form rendered="#{session_userSessionBean.userBeingViewed == session_userSessionBean.currentUser}">
+                <div id="navigator">
+                    <h:commandButton value="My Data"
+                                     styleClass="button button-no-image #{(session_contentNavigatorBean.isPersonalTabActive() == true)? 'button-pressed':''}"
+                                     action="#{navigation_staticBean.showUserHome()}"
+                                     style="width:150px;"/>
+                    <p:outputPanel>
+                        <br/>
+                        <h:commandButton value="My Projects"
+                                         styleClass="button button-no-image #{(session_contentNavigatorBean.isProjectTabActive() == true)? 'button-pressed':''}"
+                                         action="#{navigation_staticBean.showProjectsHome()}"
+                                         style="width:150px;"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{not session_userSessionBean.isFromGalaxy()}">
+                        <br/>
+                        <h:commandButton value="TSD"
+                                         styleClass="button button-no-image #{(session_contentNavigatorBean.isTsdTabActive() == true)? 'button-pressed':''}"
+                                         action="#{navigation_staticBean.showTsdLogin()}"
+                                         style="width:150px;"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{not session_userSessionBean.isFromGalaxy()}">
+                        <br/>
+                        <h:commandButton value="StoreBioinfo"
+                                         styleClass="button button-no-image #{(session_contentNavigatorBean.isSbiTabActive() == true)? 'button-pressed':''}"
+                                         action="#{navigation_staticBean.showSbiHome()}"
+                                         style="width:150px;"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{not session_userSessionBean.isFromGalaxy() }">
+                        <br/>
+                        <h:commandButton value="Available Pipelines"
+                                         styleClass="button button-no-image"
+                                         action="#{navigation_staticBean.popUpAbsolute('https://galaxy-ntnu.bioinfo.no/www/nels_pipelines.html')}"
+                                         style="width:150px;"/>
+                        <br/>
+                        <h:commandButton value="Connection Details"
+                                         styleClass="button button-no-image"
+                                         action="#{navigation_staticBean.showSSHDetails()}"
+                                         style="width:150px;"/>
+                        <br/>
+                        <h:commandButton value="Help (Support)"
+                                         styleClass="button button-no-image"
+                                         action="#{navigation_staticBean.showHelpForm()}"
+                                         style="width:150px;"/>
+
+                    </p:outputPanel>
+
+
+                </div>
+
+            </h:form>
+
+            <h:form rendered="#{session_userSessionBean.userBeingViewed != session_userSessionBean.currentUser}">
+                <h:commandButton value="Help (Support)"
+                                 styleClass="button button-no-image"
+                                 action="#{navigation_staticBean.showHelpForm()}"
+                                 style="width:150px;"/>
+            </h:form>
+        </td>
+
+    </ui:define>
+
+
+    <ui:define name="right-content">
+
+        <script>
+            //<![CDATA[
+                $(document).ready(function () {
+                    getJobUpdate("#{session_userSessionBean.getApplicationRoot()}");
+                    setInterval(function () {
+                        getJobUpdate("#{session_userSessionBean.getApplicationRoot()}")
+                    }, 10000);
+                });
+            //]]>
+        </script>
+        <td valign="top" style="width: 300px;">
+            <input id="refresh_foleFoldersButton" type="button" value="Ajax Refresh" onclick="refresh_fileFolders();"
+                   style="display:none;"/>
+            <div class="box-header">History</div>
+            <div class="box-body" id="newJobs"></div>
+        </td>
+
+    </ui:define>
+
+</ui:composition>

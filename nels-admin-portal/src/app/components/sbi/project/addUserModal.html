@@ -1,0 +1,99 @@
+<div>
+    <div class="modal-header " style="background-color:#fff">
+        <button type="button" class="close" data-dismiss="modal" ng-click="umctrl.cancelClick()"><span
+                class="glyphicon glyphicon-remove"></span>
+        </button>
+        <h3 class="modal-title">{{umctrl.modalTitle}}</h3>
+    </div>
+    <div class="modal-body" style="padding: 0;background-color:#fff">
+
+        <nav class="nav" style="background-color: #efefef;">
+            <div class="pull-right">
+                <div class="btn-group" uib-dropdown>
+                    <button id="Button3" type="button" class="btn btn-link"
+                            uib-dropdown-toggle>
+                        <span class="glyphicon glyphicon-check">Selection</span>
+                        <span class="badge" style="margin-left: 5px">{{umctrl.getSizeOfSelection()}}</span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                        aria-labelledby="single-button">
+                        <li>
+                            <a type="button" class="btn btn-link"
+                               ng-click="umctrl.selectAll()">
+                                <span class="glyphicon glyphicon-ok">&nbsp;Select All</span>
+                            </a>
+                        </li>
+                        <li ng-class="{'disabled': umctrl.getSizeOfSelection() ==0}">
+                            <a type="button" class="btn btn-link" ng-click="umctrl.clearSelection()">
+                                <span class="glyphicon glyphicon-refresh">&nbsp;Clear Selection</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <input ng-model="umctrl.query" ng-model-options="{ debounce: 500 }"
+                       ng-change="umctrl.onSearch()" placeholder="Search"
+                       style="width: 200px; margin-top: 3px; margin-right: 3px;">
+            </div>
+        </nav>
+        <div class="container-fluid" style="margin-top: 20px">
+            <div data-ng-show="umctrl.users.length==0">No records</div>
+            <table class="table table-striped" data-ng-show="umctrl.users.length >0">
+                <thead>
+                <tr>
+                    <th><a ng-click="umctrl.sortBy('id')" class="nels-clickable">#</a> <span
+                            class="sortorder" ng-show="umctrl.sortColumn === 'id'"
+                            ng-class="{reverse: umctrl.reverse}"></span></th>
+                    <th><a ng-click="umctrl.sortBy('name')" class="nels-clickable">Name</a>
+                        <span class="sortorder" ng-show="umctrl.sortColumn === 'name'"
+                              ng-class="{reverse: umctrl.reverse}"></span></th>
+                    <th><a ng-click="umctrl.sortBy('registrationdate')"
+                           class="nels-clickable">Reg. Date</a> <span class="sortorder"
+                                                                      ng-show="umctrl.sortColumn === 'registrationdate'"
+                                                                      ng-class="{reverse: umctrl.reverse}"></span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="user in umctrl.users  | orderBy:sortColumn:reverse"
+                    ng-click="umctrl.toggleItemSelection(user)"
+                    class="nels-clickable {{umctrl.selectionCss(user)}}">
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}} <br/>
+                        <small
+                                class="text-muted">Username: {{user.idpusername}} | Email: {{user.email}}
+                        </small>
+                    </td>
+                    <td>{{user.registrationdate | date : 'dd MMM yyyy'}}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <pagination get-previous-class="umctrl.getPreviousClass()"
+                                    previous-page="umctrl.previousPage()"
+                                    get-pages="umctrl.getPages()"
+                                    get-page-class="umctrl.getPageClass(value)"
+                                    set-current-page="umctrl.setCurrentPage(value)"
+                                    get-next-class="umctrl.getNextClass()"
+                                    next-page="umctrl.nextPage()"
+                                    start-number="umctrl.startNumber()"
+                                    end-number="umctrl.endNumber()"
+                                    get-total-size="umctrl.getTotalSize()"
+                                    change="umctrl.change(value)"
+                                    first-page="umctrl.firstPage()"
+                                    last-page="umctrl.lastPage()"></pagination>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+    <div class="modal-footer" style="background-color:#fff">
+        <button ng-disabled="umctrl.getSizeOfSelection() == 0" ng-click="umctrl.okClick()"
+                class="btn btn-primary pull-right" type="button">
+            <span class="glyphicon glyphicon-ok">OK</span>
+        </button>
+    </div>
+</div>
+

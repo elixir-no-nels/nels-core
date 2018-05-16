@@ -1,0 +1,201 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-interaction.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_sbi.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:param name="child_bean" value="#{pages_sbi}"/>
+
+    <ui:define name="otherPanel">
+        <div id="sbi-panel" class="panel">
+            <div class="box-header">StoreBioinfo</div>
+            <div class="box-body">
+                <table>
+                    <tr>
+                        <td>You are at : <h:graphicImage name="/images/folder.png"/></td>
+                        <td>
+                            <ul class="path">
+                                <ui:repeat var="nav" value="#{pages_sbi.getSbiNavStack()}">
+                                    <li>
+                                        <h:link styleClass="button-link" value="/#{pages_sbi.getIdentifier(nav)}"
+                                                outcome="sbi">
+                                            <f:param name="path"
+                                                     value="#{pages_sbi.currentNelsPath}"/>
+                                            <f:param name="sbi" value="#{nav}"/>
+                                        </h:link>
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="clear: both;">
+                    <p:dataTable id="dtProject" var="project"
+                                 value="#{pages_sbi.sbiProjectModel}" paginator="true"
+                                 rows="10"
+                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                 pageLinks="6"
+                                 rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                 paginatorAlwaysVisible="false"
+                                 rendered="#{pages_sbi.currentSbiPathLen eq 1}">
+                        <p:column headerText="Name" style="line-height:2;"
+                                  sortBy="#{project.name}">
+                            <h:link styleClass="button-link-image sbi-project" value="#{project.name}"
+                                    outcome="sbi">
+                                <f:param name="sbi"
+                                         value="#{pages_sbi.getPathForSbiProject(project.getId())}"/>
+                                <f:param name="path"
+                                         value="#{pages_sbi.getPathNavigationString(pages_sbi.currentNelsPath)}"/>
+                            </h:link>
+                        </p:column>
+                        <p:column headerText="Contact Person" sortBy="#{project.getContactPerson()}">
+                            <h:outputText value="#{project.getContactPerson()}"/>
+                        </p:column>
+
+                        <p:column headerText="Creation Date">
+                            <h:outputText
+                                    value="#{project.getCreationDate()}">
+                                <f:convertDateTime dateStyle="long"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <h:commandButton styleClass="button-link-image button-info" action="#{pages_sbi.showProjectMore(project)}" value="more"> </h:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable id="dtDataset" var="dataset"
+                                 value="#{pages_sbi.sbiDataSetModel}" paginator="true"
+                                 rows="10"
+                                 paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                 pageLinks="6"
+                                 rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                 paginatorAlwaysVisible="false"
+                                 rendered="#{pages_sbi.currentSbiPathLen eq 2}">
+                        <p:column headerText="Name" style="line-height:2;"
+                                  sortBy="#{dataset.name}">
+                            <h:link styleClass="button-link-image sbi-dataset" value="#{dataset.name}"
+                                    outcome="sbi">
+                                <f:param name="sbi"
+                                         value="#{pages_sbi.getPathForSbiDataSet(dataset.getId())}"/>
+                                <f:param name="path"
+                                         value="#{pages_sbi.getPathNavigationString(pages_sbi.currentNelsPath)}"/>
+                            </h:link>
+                        </p:column>
+                        <p:column headerText="Owner" sortBy="#{dataset.getOwner()}">
+                            <h:outputText value="#{dataset.getOwner()}"/>
+                        </p:column>
+                        <p:column headerText="Locked">
+                            <h:outputText value="#{dataset.isLocked()}"
+                                          style="color: #{dataset.locked ? 'red' : 'black'}"/>
+                        </p:column>
+                        <p:column headerText="Creation Date">
+                            <h:outputText
+                                    value="#{dataset.creationDate}">
+                                <f:convertDateTime dateStyle="long"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable id="dtSubType" var="subType"
+                                 value="#{pages_sbi.sbiSubTypeModel}" paginator="true"
+                                 rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                 paginatorAlwaysVisible="false"
+                                 rendered="#{pages_sbi.currentSbiPathLen eq 3}">
+                        <p:column headerText="Type" sortBy="#{subType.type}">
+                            <h:link styleClass="button-link-image sbi-subtype" value="#{subType.type}"
+                                    outcome="sbi">
+                                <f:param name="sbi"
+                                         value="#{pages_sbi.getPathForSbiSubType(subType.getId())}"/>
+                                <f:param name="path"
+                                         value="#{pages_sbi.getPathNavigationString(pages_sbi.currentNelsPath)}"/>
+                            </h:link>
+                        </p:column>
+
+                        <p:column headerText="Size" sortBy="#{subType.size}">
+                            <h:outputText value="#{pages_sbi.getFileSizeForDisplay(subType.size)}"/>
+                        </p:column>
+
+                        <p:column headerText="Creation Date">
+                            <h:outputText
+                                    value="#{subType.creationDate}">
+                                <f:convertDateTime dateStyle="long"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                    <p:remoteCommand name="refresh_fileFolders"
+                                     action="#{pages_sbi.jobCompletedAsyncRefresh()}"
+                                     id="refresh_fileFolders" process="@this"
+                                     update="dtFile nels-fileFolders"/>
+
+                    <p:dataTable id="dtFile" var="file"
+                                 value="#{pages_sbi.sbiFileModel}" paginator="true"
+                                 rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                 paginatorAlwaysVisible="false"
+                                 selection="#{pages_sbi.selectedSbiFiles}"
+                                 rendered="#{pages_sbi.currentSbiPathLen gt 3}">
+                        <p:column selectionMode="multiple"/>
+
+                        <p:column headerText="Name" sortBy="#{file.name}" rendered="#{file.isFolder()}">
+                            <h:link styleClass="button-link-image folder" value="#{file.name}" outcome="sbi">
+                                <f:param name="path"
+                                         value="#{pages_sbi.getPathNavigationString(pages_sbi.currentNelsPath)}"/>
+                                <f:param name="sbi"
+                                         value="#{pages_sbi.getNewPathForFile(file.name)}"/>
+                            </h:link>
+                        </p:column>
+
+                        <p:column headerText="Name" sortBy="#{file.name}" rendered="#{!file.isFolder()}">
+                            <a class="file-no-link" href="">#{file.name}</a>
+                        </p:column>
+
+                        <p:column headerText="Size" sortBy="#{file.size}">
+                            <h:outputText value="#{pages_sbi.getFileSizeForDisplay(file.size)}"
+                                          rendered="#{!file.isFolder()}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <div>
+                    <script type="text/javascript">
+                        function goToUrlBeforePopup() {
+                            window
+                                .open(
+                                    '#{pages_sbi.getRequestUrl()}',
+                                    target = "_self");
+                        }
+                    </script>
+                    <p:outputPanel rendered="#{pages_sbi.isSeekProject()}">
+                        <h:commandButton value="Upload Metadata" styleClass="button button-upload"
+                                         action="#{pages_sbi.uploadMetadataFile('goToUrlBeforePopup();')}"/>
+                        <h:outputLink rendered="#{pages_sbi.showMetadataFile()}"
+                                      value="#{facesContext.externalContext.context.contextPath}/pages/sbi/metadata-download.xhtml?path=#{pages_sbi.getDownloadMetadataPath()}"
+                                      styleClass="button button-download">Download Metadata</h:outputLink>
+                        <h:commandButton styleClass="button button-delete" rendered="#{pages_sbi.showMetadataFile()}"
+                                         action="#{pages_sbi.removeMetadataFile()}" value="Remove Metadata"/>
+                    </p:outputPanel>
+                    <p:outputPanel>
+                        <h:commandButton value="Transfer To NeLS"
+                                         styleClass="button transfer-left"
+                                         action="#{pages_sbi.transferToNels()}"
+                                         rendered="#{pages_sbi.transferToNelsButtonVisible()}"/>
+                        <h:commandButton value="Add Dataset"
+                                         styleClass="button dataset-add"
+                                         action="#{pages_sbi.showAddDataset('goToUrlBeforePopup();')}"
+                                         rendered="#{pages_sbi.currentSbiPathLen eq 2}"/>
+
+
+                    </p:outputPanel>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+
+</ui:composition>

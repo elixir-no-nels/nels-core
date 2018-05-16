@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/template/popup.xhtml">
+
+	<ui:define name="page-title">
+		<h:outputText value="#{pages_projects_project.getPageTitle()}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="box-header">Project</div>
+			<div class="box-body">
+				<div class="contact-form">
+					<p>
+						Name:<br />
+						<h:inputText id="name" value="#{pages_projects_project.name}" /> *
+					</p>
+					<p>
+						Description: <br />
+						<h:inputTextarea id="description"
+							value="#{pages_projects_project.description}" /> *
+
+					</p>
+				</div>
+				<h:commandButton value="Save"
+					action="#{pages_projects_project.cmdSaveProject_Click()}"
+					rendered="#{pages_projects_project.getPageMode()=='new'}"
+					styleClass="button button-save" />
+				<h:commandButton value="Update"
+					action="#{pages_projects_project.cmdUpdateProject_Click()}"
+					rendered="#{pages_projects_project.getPageMode()=='edit'}"
+					styleClass="button button-save" />
+				<h:commandButton value="Cancel"
+					action="#{pages_projects_project.cmdCancel_Click()}"
+					styleClass="button button-cancel" />
+
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

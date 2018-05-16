@@ -1,0 +1,123 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_file_selection.getPageTitle()}" />
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="content">
+            <h:form>
+            <div class="box-header">#{pages_file_selection.getBlockHeader()}</div>
+            <div class="box-body">
+
+                <table>
+                    <tr>
+                        <td>You are at : <h:graphicImage name="/images/folder.png"/>
+                        </td>
+                        <td>
+                            <ul id="breadcrum" class="folder">
+                                <ui:repeat var="nav" value="#{pages_file_selection.getNavStack()}">
+
+                                    <li>
+                                        <h:link styleClass="button-link" value="/#{pages_file_selection.getLastPath(nav)}" outcome="projects-home" rendered="#{pages_file_selection.getLastPath(nav) == 'Projects'}">
+                                            <f:param name="path" value="#{pages_file_selection.getPathNavigationString(nav)}"/>
+                                            <f:param name="isFolder" value="False"/>
+                                            <f:param name="mode" value="#{pages_file_selection.getTransferringMode()}"/>
+                                        </h:link>
+                                        <h:link styleClass="button-link" value="/#{pages_file_selection.getLastPath(nav)}" outcome="file-selection" rendered="#{pages_file_selection.getLastPath(nav) != 'Projects'}">
+                                            <f:param name="path" value="#{pages_file_selection.getPathNavigationString(nav)}"/>
+                                            <f:param name="isFolder" value="True"/>
+                                            <f:param name="mode" value="#{pages_file_selection.getTransferringMode()}"/>
+                                        </h:link>
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="clear: both;">
+                    <p:dataTable id="fileFolders_for_pull" var="fileFolder"
+                                 value="#{pages_file_selection.fileFolders}" paginator="true"
+                                 rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                 selection="#{pages_file_selection.selectedFileFolders}"
+                                 paginatorAlwaysVisible="false" rendered="#{pages_file_selection.getTransferringMode() == 'pull'}">
+
+                        <p:column selectionMode="multiple" disabledSelection="true"/>
+
+                        <p:column headerText="Name" style="line-height:2;"
+                                  sortBy="#{fileFolder.name}">
+                            <h:link styleClass="button-link-image #{fileFolder.getCss()}" value="#{fileFolder.name}" outcome="file-selection">
+                                <f:param name="path" value="#{pages_file_selection.getPathNavigationString(fileFolder.path)}"/>
+                                <f:param name="isFolder" value="#{fileFolder.isFolder()}"/>
+                                <f:param name="mode" value="#{pages_file_selection.getTransferringMode()}"/>
+                            </h:link>
+                        </p:column>
+
+                        <p:column headerText="Size" sortBy="#{fileFolder.size}">
+                            <h:outputText
+                                    value="#{pages_file_selection.getFileSizeForDisplay(fileFolder.size)}"
+                                    rendered="#{!fileFolder.isFolder()}"/>
+                        </p:column>
+
+                        <p:column headerText="Modified" sortBy="#{fileFolder.lastUpdate}">
+                            <h:outputText value="#{fileFolder.lastUpdate}">
+                                <f:convertDateTime dateStyle="long"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable id="fileFolders" var="fileFolder"
+                                 value="#{pages_file_selection.fileFolders}" paginator="true"
+                                 rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,25,50" paginatorPosition="bottom"
+                                 selection="#{pages_file_selection.selectedFileFolders}"
+                                 paginatorAlwaysVisible="false" rendered="#{pages_file_selection.getTransferringMode() == 'push'}">
+
+                        <p:column selectionMode="multiple" disabledSelection="false"/>
+
+                        <p:column headerText="Name" style="line-height:2;"
+                                  sortBy="#{fileFolder.name}">
+                            <h:link styleClass="button-link-image #{fileFolder.getCss()}" value="#{fileFolder.name}" outcome="file-selection">
+                                <f:param name="path" value="#{pages_file_selection.getPathNavigationString(fileFolder.path)}"/>
+                                <f:param name="isFolder" value="#{fileFolder.isFolder()}"/>
+                                <f:param name="mode" value="#{pages_file_selection.getTransferringMode()}"/>
+                            </h:link>
+                        </p:column>
+
+                        <p:column headerText="Size" sortBy="#{fileFolder.size}">
+                            <h:outputText
+                                    value="#{pages_file_selection.getFileSizeForDisplay(fileFolder.size)}"
+                                    rendered="#{!fileFolder.isFolder()}"/>
+                        </p:column>
+
+                        <p:column headerText="Modified" sortBy="#{fileFolder.lastUpdate}">
+                            <h:outputText value="#{fileFolder.lastUpdate}">
+                                <f:convertDateTime dateStyle="long"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+
+                </div>
+                <div>
+                    <p:outputPanel rendered="#{pages_file_selection.getTransferringMode() == 'pull'}">
+                        <h:commandButton value="Use current folder" styleClass="button" action="#{pages_file_selection.pullDataFromSbi()}"/>
+                    </p:outputPanel>
+                    <p:outputPanel  rendered="#{pages_file_selection.getTransferringMode() == 'push'}">
+                        <h:commandButton value="Transfer the selected data" styleClass="button" action="#{pages_file_selection.pushDataToSbi()}"/>
+                    </p:outputPanel>
+                </div>
+            </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

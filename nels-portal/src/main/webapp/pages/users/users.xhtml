@@ -1,0 +1,145 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_users_users.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="box-header">Users</div>
+            <div class="box-body">
+
+                <p:outputPanel rendered="#{pages_users_users.isAdminOrHelpdesk()}">
+                    <table class="full-width search-table">
+                        <tr>
+                            <td>#<br/>
+                                <h:inputText id="searchId" value="#{pages_users_users.searchId}"/>
+                            </td>
+                            <td>Name<br/>
+                                <h:inputText id="searchName" value="#{pages_users_users.searchName}"/>
+                            </td>
+                            <td>Email<br/>
+                                <h:inputText id="searchEmail" value="#{pages_users_users.searchEmail}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+
+                <p:outputPanel rendered="#{!pages_users_users.isAdminOrHelpdesk()}">
+                    <table class="full-width search-table">
+                        <tr>
+                            <td>Email<br/>
+                                <h:inputText value="#{pages_users_users.searchEmail}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+
+                <div style="padding-bottom: 10px;">
+                    <h:commandButton value="Search"
+                                     action="#{pages_users_users.cmdSearch_Click()}"
+                                     styleClass="button button-search">
+                    </h:commandButton>
+                    <h:commandButton value="Refresh" styleClass="button button-refresh"
+                                     action="#{pages_users_users.cmdRefreshSearch_Click()}"/>
+                </div>
+
+
+                <p:dataTable id="dtUsers"
+                             var="usr"
+                             value="#{pages_users_users.users}"
+                             paginator="true"
+                             rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50"
+                             paginatorPosition="bottom"
+                             paginatorAlwaysVisible="false"
+                             selection="#{pages_users_users.selectedUsersForAction}"
+                             rendered="#{pages_users_users.getPageMode()=='process'}">
+
+                    <p:column selectionMode="multiple"/>
+                    <p:column headerText="#" sortBy="#{usr.id}">
+                        <h:outputText value="#{usr.getId()}"/>
+                    </p:column>
+                    <p:column headerText="Full Name">
+                        <h:commandButton class="button-link-image button-view"
+                                         value="#{usr.getIdpUser().getFullname()}"
+                                         action="#{pages_users_users.viewUser(usr.id)}"/>
+                        <br/>
+                        <span class="extra-info">Username: #{usr.getIdpUser().getIdpUsername()}  | Email: #{usr.getIdpUser().getEmail()}	</span>
+                    </p:column>
+                    <p:column headerText="Status" sortBy="#{usr.isActive}">
+                        <h:outputText value="#{usr.isActive() ? 'Active' : 'Inactive'}"/>
+                    </p:column>
+                    <p:column headerText="Usertype"
+                              sortBy="#{pages_users_users.getSystemUserTypeName(usr.systemUserType.id)}">
+                        <h:outputText value="#{pages_users_users.getSystemUserTypeName(usr.systemUserType.id)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="dtUsersSingleSelect"
+                             var="usr"
+                             value="#{pages_users_users.users}"
+                             paginator="true"
+                             rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} Rows per page: {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50" paginatorPosition="bottom"
+                             paginatorAlwaysVisible="false"
+                             selection="#{pages_users_users.selectedUsersForPick}"
+                             rendered="#{pages_users_users.getPageMode()=='pick'}">
+                    <p:column selectionMode="multiple"/>
+                    <p:column headerText="#" sortBy="#{usr.id}">
+                        <h:outputText value="#{usr.getId()}"/>
+                    </p:column>
+                    <p:column headerText="Full Name">
+                        <h:outputText value="#{usr.getIdpUser().getFullname()}"/>
+                        <br/>
+                        <span class="extra-info">Username: #{usr.getIdpUser().getIdpUsername()} | Email: #{usr.getIdpUser().getEmail()}	</span>
+                    </p:column>
+
+                </p:dataTable>
+                <p:outputPanel rendered="#{pages_users_users.getPageMode()=='process'}">
+                    <h:commandButton value="Activate"
+                                     action="#{pages_users_users.updateUser()}"
+                                     styleClass="button "
+                                     onclick="return confirm('Are you sure you want to activate user with the selected User(s)?')">
+                        <f:param name="action" value="activate"/>
+                    </h:commandButton>
+                    <h:commandButton value="Deactivate"
+                                     action="#{pages_users_users.updateUser()}"
+                                     styleClass="button "
+                                     onclick="return confirm('Are you sure you want to deactivate user with the selected User(s)?')">
+                        <f:param name="action" value="deactivate"/>
+                    </h:commandButton>
+                    <span style="border: 1px dashed #6ca786; padding: 10px;">
+						<h:selectOneMenu value="#{pages_users_users.selectedSystemUserType}"
+                                         style="width:250px;margin-right:5px;height:1.8em;">
+                            <f:selectItems value="#{pages_users_users.systemUserTypeList}"/>
+                        </h:selectOneMenu>
+                            <h:commandButton value="Modify Usertype"
+                                             action="#{pages_users_users.updateUser()}"
+                                             styleClass="button "
+                                             onclick="return confirm('Are you sure you want to modify usertype with the selected User(s)?')">
+                              <f:param name="action" value="modifyUsertype"/>
+                            </h:commandButton>
+                    </span>
+                </p:outputPanel>
+                <p:outputPanel id="process_buttons"
+                               rendered="#{pages_users_users.getPageMode()=='pickone' or pages_users_users.getPageMode()=='pick'}">
+                    <h:commandButton value="Accept"
+                                     action="#{pages_users_users.cmdAcceptPicker_Click()}"
+                                     styleClass="button"
+                                     onclick="return confirm('Are you sure you want to Accept the selected User(s)?')">
+                    </h:commandButton>
+                    <h:commandButton value="Cancel" styleClass="button button-cancel"
+                                     action="#{pages_users_users.cmdCancelPicker_Click()}"/>
+                </p:outputPanel>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

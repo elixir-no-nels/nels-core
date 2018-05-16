@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/template/nels-secure.xhtml">
+
+	<ui:define name="page-title">
+		<h:outputText value="Pipelines" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="overviewForm">
+			<table class="full-width">
+				<tr>
+					<td valign="top" style="width: 180px;">
+						<div>
+							<h:commandButton value="My Data"
+								styleClass="button button-no-image"
+								action="#{navigation_staticBean.showUserHome()}"
+								style="width:150px;" />
+							<br />
+							<h:commandButton value="Public Data"
+								styleClass="button button-no-image"
+								action="#{navigation_staticBean.showPublicData()}"
+								style="width:150px;" />
+							<br />
+							<h:commandButton value="My Groups"
+								styleClass="button button-no-image"
+								action="#{navigation_staticBean.showMyGroups()}"
+								style="width:150px;" />
+							<br />
+							<h:commandButton value="Available Pipelines"
+								styleClass="button button-no-image button-pressed"
+								action="#{navigation_staticBean.showPipelines()}"
+								style="width:150px;" />
+							<br />
+							<h:commandButton value="Help (Support)"
+								styleClass="button button-no-image"
+								action="#{navigation_staticBean.showHelpForm()}"
+								style="width:150px;" />
+						</div>
+					</td>
+					<td valign="top"><div class="box-header">Available Pipelines</div>
+						<div class="box-body">Coming soon</div></td>
+				</tr>
+			</table>
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

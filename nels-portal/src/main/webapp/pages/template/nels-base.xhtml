@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+
+    <h:head>
+        <title><ui:insert name="page-title">NeLS Portal</ui:insert></title>
+        <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        <h:outputScript library="js" name="popup.js"/>
+        <h:outputScript library="js" name="job-history.js"/>
+        <h:outputScript library="js" name="jquery.min.js"/>
+
+        <h:outputScript library="js" name="jquery.progressbar.min.js"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+    </h:head>
+    <h:body>
+
+        <!-- css -->
+        <h:outputStylesheet name="default.css" library="css" target="head"/>
+        <h:outputStylesheet name="layout.css" library="css" target="head"/>
+        <h:outputStylesheet name="user.css" library="css" target="head"/>
+        <h:outputStylesheet name="containers.css" library="css" target="head"/>
+        <h:outputStylesheet name="controls.css" library="css" target="head"/>
+        <h:outputStylesheet name="popup.css" library="css" target="head"/>
+        <h:outputStylesheet name="sbi.css" library="css" target="head"/>
+        <h:outputStylesheet name="tsd.css" library="css" target="head"/>
+        <h:outputStylesheet name="jquery-ui.css" library="css" target="head"/>
+
+        <!-- if there is a popup -->
+        <script type="text/javascript">
+            if (#{session_popupBean.show()}) {
+                TINY.box.show({
+                    iframe: '#{session_popupBean.url}',
+                    width: #{session_popupBean.width},
+                    height: #{session_popupBean.height},
+                    fixed: false,
+                    masked: 'bgmask',
+                    maskopacity: 40,
+                    closejs: function () {#{session_popupBean.closeJs}
+                    }
+                });
+            }
+            if (#{session_popupBean.close()}) {
+                parent.TINY.box.hide();
+            }
+        </script>
+
+        <!--  if required to go back to root -->
+        <script type="text/javascript">
+            if (#{session_rootRedirectBean.getHasRootRedirect()}) {
+                if (#{session_userSessionBean.isFromGalaxy()}) {
+                    window.open('#{session_rootRedirectBean.url}', target = "_self");
+                }
+                else {
+                    window.open('#{session_rootRedirectBean.url}', target = "_top");
+                }
+            }
+        </script>
+
+        <div align="center">
+            <div id="master">
+                <div id="header-container">
+                    <ui:insert name="above-header" id="above-header"/>
+                    <ui:insert name="header" id="header"/>
+                </div>
+                <div id="middle-container">
+                    <div id="left-container">
+                        <ui:insert name="left" id="left"/>
+                    </div>
+                    <div id="center-container">
+                        <div id="above-content-container">
+                            <ui:insert name="above-content" id="above-content"/>
+                        </div>
+                        <div id="content-container"
+                             style="min-height: 400px; padding: 10px;">
+                            <p:messages id="messages" showDetail="true" autoUpdate="true"
+                                        closable="true"/>
+
+                            <table class="full-width">
+                                <tr>
+                                    <!-- the td is added in nels-secure-navigator.xhtml to avoid blank td when there is no navigator needed. -->
+                                    <ui:insert name="navigator" id="navigator"/>
+                                    <td valign="top">
+                                        <ui:insert name="content" id="content"/>
+                                    </td>
+
+                                    <ui:insert name="right-content" id="right-content"/>
+
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div id="below-content-container">
+                            <ui:insert name="below-content" id="below-content"/>
+                        </div>
+                    </div>
+                    <div id="right-container">
+                        <ui:insert name="right" id="right"/>
+                    </div>
+                </div>
+                <div id="footer-container">
+                    <h:form rendered="#{session_userSessionBean.currentUser ne null}">
+                        <div style="margin-top:0px;padding:5px" class="ui-message-info">
+                            <strong>Notice:</strong>
+                            If you are not using Galaxy,
+                            <h:commandButton value="Click Here "
+                                             styleClass="button-link"
+                                             action="#{navigation_staticBean.galaxyViewToNormal()}"></h:commandButton>to go to Normal View
+                            <br/>
+                            If you are in Galaxy and seeing Normal View, Click "Get files from NeLS storage" or "Send files from NeLS storage" links to reinforce Galaxy Interaction View.
+                        </div>
+
+                    </h:form>
+
+
+                    <p><span id="copyRight"/>. Norwegian e-Infrastructure for Life Sciences. All
+                        right reserved.</p>
+                    <p:dataTable id="fake-table-to-add-message-ajax"
+                                 style="visibility:hidden;">
+                    </p:dataTable>
+                </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#copyRight').text("©" + (new Date()).getFullYear());
+                        $('.logo-box').click(function () {
+                            location.href = "#{session_userSessionBean.getApplicationRoot()}/pages/login.xhtml";
+                        });
+                        $('.logo-box').css("cursor", "pointer");
+                    });
+                </script>
+
+            </div>
+        </div>
+        <ui:include src="/pages/template/sessionTimeOut.xhtml"/>
+        <p:outputPanel rendered="#{session_userSessionBean.isTestMode()}">
+            <!-- Piwik -->
+            <script type="text/javascript">
+                var _paq = _paq || [];
+                /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                (function() {
+                    var u="//stats2.ii.uib.no/";
+                    _paq.push(['setTrackerUrl', u+'piwik.php']);
+                    _paq.push(['setSiteId', '2']);
+                    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+                })();
+            </script>
+            <!-- End Piwik Code -->
+        </p:outputPanel>
+
+        <p:outputPanel rendered="#{not session_userSessionBean.isTestMode()}">
+            <!-- Piwik -->
+            <script type="text/javascript">
+                var _paq = _paq || [];
+                /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                (function() {
+                    var u="//stats2.ii.uib.no/";
+                    _paq.push(['setTrackerUrl', u+'piwik.php']);
+                    _paq.push(['setSiteId', '3']);
+                    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+                })();
+            </script>
+            <!-- End Piwik Code -->
+        </p:outputPanel>
+
+    </h:body>
+</f:view>
+
+</html>
+
+

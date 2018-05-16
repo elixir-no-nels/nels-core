@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_help_form.getPageTitle()}"/>
+    </ui:define>
+    <ui:define name="content">
+        <table class="full-width">
+            <tr>
+                <td><h:form rendered="#{!pages_help_form.getIsSent()}"
+                            id="helpForm">
+                    <div class="box-header">Help (Support)</div>
+                    <div class="box-body" style="padding-top: 0px;">
+                        <div class="contact-form">
+                            <p>
+                                <span>Enter your Name :</span><br/>
+                                <h:inputText value="#{pages_help_form.name}"
+                                             disabled="#{pages_help_form.isUserLoggedIn()}" id="txtName"/>
+                                *
+                            </p>
+
+                            <p>
+                                <span class="field-prompt">E-mail address :</span><br/>
+                                <h:inputText value="#{pages_help_form.email}"
+                                             disabled="#{pages_help_form.isUserLoggedIn()}"/>
+                                *
+                            </p>
+
+                            <p>
+                                <span class="field-prompt">Institution / Affiliation :</span> <br/>
+                                <h:inputText value="#{pages_help_form.affiliation}"
+                                             disabled="#{pages_help_form.isUserLoggedIn()}"/>
+                                *
+                            </p>
+
+                            <p>
+                                <span class="field-prompt">Message Subject :</span> <br/>
+                                <h:inputText value="#{pages_help_form.subject}"/>
+                                *
+                            </p>
+
+                            <p>
+                                <span class="field-prompt">Enter Your Message :</span><br/>
+                                <h:inputTextarea value="#{pages_help_form.message}">
+                                </h:inputTextarea>
+                                *
+
+                            </p>
+                        </div>
+
+                        <h:commandButton value="Submit" styleClass="button"
+                                         id="cmdSubmit" action="#{pages_help_form.cmdSubmit_Click}"/>
+                    </div>
+                </h:form> <p:outputPanel rendered="#{pages_help_form.getIsSent()}">
+
+                    <div class="box-header">Request submitted!</div>
+
+                    <div style="color: #29598E; font-size: 16px; padding-left: 15px;"
+                         class="box-body">
+                        <b>You will get an e-mail from our Issue Tracking system
+                            shortly </b>
+                    </div>
+
+                </p:outputPanel></td>
+            </tr>
+        </table>
+
+    </ui:define>
+
+</ui:composition>

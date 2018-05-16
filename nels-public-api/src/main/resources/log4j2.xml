@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" monitorInterval="60">
+    <Properties>
+        <Property name="log-path">../logs</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="service-log" fileName="${log-path}/service.log"
+                     filePattern="${log-path}/service-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>%highlight{[%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg%n}</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="no.nels.api" level="debug" additivity="false">
+            <AppenderRef ref="service-log"/>
+        </Logger>
+        <Root level="debug">
+            <AppenderRef ref="service-log"/>
+        </Root>
+    </Loggers>
+</Configuration>
+

@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/pages/template/popup.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_sbi_project_info.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="ssh-details">
+            <div class="box-header">Project details: #{pages_sbi_project_info.getProjectName()}</div>
+            <div class="box-body">
+
+                <table class="full-width">
+                    <tr>
+                        <td style="width:50%" valign="top">
+                            <div class="block-header" style="font-weight: bold">Project Info</div>
+                            <table class="view-table">
+                                <tr>
+                                    <td style="width: 120px;" class="field-prompt">Name</td>
+                                    <td style="font-weight: bold;"><h:outputText
+                                            value="#{pages_sbi_project_info.getProjectName()}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 120px;" class="field-prompt">Description</td>
+                                    <td style="font-weight: bold;"><h:outputText
+                                            value="#{pages_sbi_project_info.getDescription()}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 120px;" class="field-prompt">Used Size</td>
+                                    <td style="font-weight: bold;"><h:outputText
+                                            value="#{pages_sbi_project_info.getQuotaDiskUsage()}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 120px;" class="field-prompt">Contact Person</td>
+                                    <td style="font-weight: bold;"><h:outputText
+                                            value="#{pages_sbi_project_info.getContactPerson()}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 120px;" class="field-prompt">Creation Date</td>
+                                    <td style="font-weight: bold;"><h:outputText
+                                            value="#{pages_sbi_project_info.getCreationDate()}">
+                                        <f:convertDateTime dateStyle="long"/>
+                                    </h:outputText>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <div class="block-header" style="font-weight: bold">Quota Info</div>
+                            <table class="view-table">
+                                <tr>
+                                    <td style="width: 120px;" class="field-prompt">Name</td>
+                                    <td style="font-weight: bold;"><h:outputText
+                                            value="#{pages_sbi_project_info.getQuotaName()}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 120px;" class="field-prompt">Usage</td>
+                                    <td style="font-weight: bold;"><h:outputText
+                                            value="#{pages_sbi_project_info.getUsedSize()} / #{pages_sbi_project_info.getQuotaSize()}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td valign="top">
+                            <div class="block-header" style="font-weight: bold;">Project Members</div>
+                            <div>
+                                <table class="view-table" style="min-width:0px">
+                                    <ui:repeat var="member" value="#{pages_sbi_project_info.getMembers()}">
+                                        <tr>
+                                            <td>#{member}</td>
+                                        </tr>
+                                    </ui:repeat>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

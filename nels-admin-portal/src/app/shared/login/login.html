@@ -1,0 +1,7 @@
+<div ng-show="nelsAuthService.auth.isAuth">
+	NeLS Id: {{nelsAuthService.auth.nelsId}}
+</div>
+<div ng-show="!nelsAuthService.auth.isAuth">
+	<a ng-click="$ctrl.login()" class="btn btn-primary nels-clickable glyphicon glyphicon-log-in" > Login</a>
+</div>
+{{message}}

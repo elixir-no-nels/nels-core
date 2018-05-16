@@ -1,0 +1,132 @@
+.nels-clickable {
+    cursor: pointer;
+}
+
+.tab-content {
+    margin: 5px;
+}
+
+/*
+.table>tbody>tr:hover {
+    color: #8A0010;
+    background-color: #ddd !important;
+    left: .1em;
+}
+*/
+
+.sortorder:after {
+    content: '\25b2';
+    /* BLACK UP-POINTING TRIANGLE */
+}
+
+.sortorder.reverse:after {
+    content: '\25bc';
+    /* BLACK DOWN-POINTING TRIANGLE */
+}
+
+.nels-sub-menu {
+    background-color: #efefef;
+    margin-top: 50px;
+    z-index: 100;
+    padding-top: 5px;
+    padding-left: 3px;
+}
+
+.nels-sub-sub-menu {
+    background-color: #efefef;
+    z-index: 100;
+    padding-top: 5px;
+    padding-left: 3px;
+    margin-bottom: 0px;
+}
+
+.nels-small-sub-menu {
+    background-color: #efefef;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.selected-item {
+    background-color: #d6ebef !important;
+}
+
+.dropdown-menu > li > a {
+    text-align: left;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.modal-content {
+    background-color: #EDEFF0;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: #165575;
+}
+
+.form-group.required .control-label:after {
+    content: "*";
+    color: red;
+}
+
+.nels-block {
+    padding: 5px;
+    background-color: #efefef;
+    border-top: 3px solid #aaa;
+    color: #333;
+}
+
+.nels-block-default {
+}
+
+.nels-block-info {
+    border-top-color: #3498DB;
+    color: #3498DB;
+}
+
+.nels-block-warning {
+    border-top-color: #F39C12;
+    color: #F39C12;
+}
+
+.nels-block-danger {
+    border-top-color: #E74C3C;
+    color: #E74C3C;
+}
+
+.nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+    background-color: #428bca;
+    color: #fff;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.table > tbody > tr:hover {
+    color: #333333;
+    background-color: #dadada !important;
+}
+
+.nels-highlight {
+    background-color: #fff2a8;
+}

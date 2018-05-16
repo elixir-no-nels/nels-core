@@ -1,0 +1,136 @@
+html {
+	font-family: Arial, Helvetica, Sans Serif;
+}
+
+body {
+	background: none repeat scroll 0 0 #FFFFFF;
+	font-size: 13px;
+	line-height: 150%;
+	cursor: default;
+	margin: 1px;
+	padding: 0;
+	margin: 1px;
+	color: #444444;
+}
+
+div,td {
+	font-size: 13px;
+	line-height: 150%;
+	padding: 0px;
+}
+
+#master {
+	width: 100%;
+	background: url(#{resource['images/bg.png']}) repeat-x scroll center 0px transparent ;
+	padding-top: 10px;
+}
+#header-container {
+	clear: both;
+	height: 80px;
+	width: 98%;
+}
+
+#middle-container {
+	width: 98%;
+}
+
+#above-header {
+	
+}
+
+#header {
+	height: 115px;
+	background: none repeat scroll 0 0 #3f3f9e;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 1018px;
+}
+
+#center-container {
+	clear: both;
+	padding-bottom: 5px;
+	width: 100%;
+}
+
+#above-content-container {
+	
+}
+
+#content-container {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #C6C2C2;
+	border-radius: 10px 10px 10px 10px;
+	height: 98%;
+	margin-top: 7px;
+	padding: 0px;
+	text-align: justify;
+}
+
+#below-content-container {
+	
+}
+
+#right-container {
+	
+}
+
+#footer-container {
+	
+}
+
+#footer-container p {
+	color: #305575;
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	text-align: center;
+}
+
+/*user menu*/
+.menu {
+    font-size: 15px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    float: left;
+    margin-right: 0;
+}
+
+.menu li a:link, .menu li a:visited {
+    color: #273F7B;
+    display: block;
+    font-family: "Trebuchet MS",Arial,sans-serif;
+    font-weight: bold;
+    margin: 0 0 0 10px;
+    padding: 16px 14px 17px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.7s ease 0s;
+}
+.menu li a:hover {
+    color: #960014;
+    text-decoration: none;
+}
+
+/*admin menu*/
+.left-menu {
+	width:238px;
+}
+
+.left-menu h2{
+	background:transparent none repeat scroll 0 0;
+	color:#951a17;
+}
+
+.menu-group-header {
+	border-bottom: 1px solid #eee;
+	color: #777;
+	line-height: 2;
+	margin-right: 10px;
+	padding-left: 5px;
+	padding-top: 10px;
+	padding-bottom:5px;
+}

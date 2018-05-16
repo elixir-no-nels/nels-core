@@ -1,0 +1,12 @@
+#!/home/kidane/cbu-code/nels-python/nels-storage-proxy/.venv/bin/python
+
+import sys
+sys.path[0:0] = [
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/eggs/zc.buildout-2.11.4-py2.7.egg',
+  '/home/kidane/cbu-code/nels-python/nels-storage-proxy/.venv/lib/python2.7/site-packages',
+  ]
+
+import zc.buildout.buildout
+
+if __name__ == '__main__':
+    sys.exit(zc.buildout.buildout.main())

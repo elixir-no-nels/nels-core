@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/template/nels-secure.xhtml">
+
+    <ui:define name="page-title">
+        <h:outputText value="#{pages_user_terms.getPageTitle()}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <script type="text/javascript">
+            function showMessage() {
+                $("#terms").css("display", "none");
+                $("#message").css("display", "block");
+
+                var sec = 3;
+                function myTimer() {
+                    var d = sec--;
+                    document.getElementById("timer").innerHTML = d.toString();
+                }
+                setInterval(function(){ myTimer() }, 1000);
+                setTimeout(
+                    function () {
+                        window.location.href = "#{facesContext.externalContext.context.contextPath}/saml/logout";
+                    }, 3000);
+            }
+        </script>
+        <div id="terms">
+            <h2>Terms Of Use - Norwegian e-infrastructure for Life Science (NeLS)</h2>
+            <div style="color:#777;">Version 1.0 January 13. 2017 </div>
+
+            <h3>Intendend usage</h3>
+            <p>The main purpose of NeLS is to allow Norwegian Life Science researchers and their collaborators, to share and work flexibly on Life Science data, in a safe environment that accommodates proper data stewardship through the life cycle of a science project.</p>
+
+            <h3>Organization</h3>
+            <p>The architecture of NeLS has a tiered structure, with three natural layers that data can reside in. These are the compute layer, the NeLS storage layer, and the StoreBioinfo layer. All three serve different purposes in terms of usage: from small capacity, very short term immediate storage with fast access available to compute resources, to large capacity, long term storage, with less flexible access methods and longer access time. Another important difference between the levels is the built- in redundancy against data loss and implemented backup policies.</p>
+
+            <p>See overview here: <a href="http://www.bioinfo.no/storebioinfo/data-management-in-nels" target="_blank">http://www.bioinfo.no/storebioinfo/data-management-in-nels</a> </p>
+
+            <p>The middle NeLS storage layer is of medium capacity and short term nature, intended for flexible sharing of project data that is being actively worked on by the project group, often a subset of the total data available in the project.</p>
+
+            <p>The StoreBioinfo layer is of high capacity and long term nature, intended to hold all data of a project found worthwhile to keep, from raw data to intermediate processed data and final interpretation results. A storage quota in this layer is granted upon a successful application to the Norwegian Bioinformatics Platform helpdesk (contact@bioinfo.no, www.bioinfo.no/storebioinfo).</p>
+
+            <p>The compute layer has many different services integrated towards NeLS storage layer. For the NeLS Galaxy servers, a limited storage is offered for users to complete there analysis before transferring results back to NeLS storage layer. Your data should not reside here, as this temporary storage may be automatically cleaned after some time based on inactivity/age of the data.</p>
+
+            <h3>Data Security – Redundancy - Backup</h3>
+            <p>The NeLS storage layer has built in redundancy against data loss due to hardware failure at disk and server levels. In addition there is a snapshot feature implemented that can recover data deleted by users by accident, if discovered and attempted recovered within 4 weeks. Beyond this there is no backup of data in this layer, in particular no off-site disaster recovery backup.</p>
+
+            <p>The StoreBioinfo storage layer is implemented on top of the national research data storage solutions offered by Sigma2 Uninett A/S. This large capacity, long term data storage layer is protected against data loss by both hardware redundancy mechanisms and snapshot feature, as well as periodic (quarterly) independent backup to a tape robot system situated in a separate fire protected zone. </p>
+
+            <h3>Active management of available storage capacity</h3>
+            <p>I agree to utilize NeLS towards the intended usage stated herein, and will contribute to proper data curation and clean up of data in the projects I participate in. The helpdesk and NeLS operational staff will monitor system performance and utilization, resulting in instructions to projects and users to move data between layers as appropriate. I understand this, and will comply to such instructions when received.</p>
+        </div>
+
+        <div id="message" style="color: #29598E; font-size: 16px; padding-left: 15px; display: none"
+             class="box-body">
+            <b>You have to accept the terms in order to use NeLS service.</b> <br/>
+            <b>Redirecting to login page in <span id="timer">3</span> second.</b>
+        </div>
+
+        <p:outputPanel id="process_buttons" rendered="#{!pages_user_terms.isTermsOfUsageAccepted()}">
+            <h:form style="display: inline">
+                <h:commandButton value="Accept" styleClass="button"
+                                 action="#{pages_user_terms.accept()}"/>
+            </h:form>
+            <h:commandButton value="Cancel" styleClass="button button-cancel"
+                             onclick="showMessage()"/>
+        </p:outputPanel>
+    </ui:define>
+</ui:composition>

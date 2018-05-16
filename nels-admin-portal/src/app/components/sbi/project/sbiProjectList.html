@@ -1,0 +1,187 @@
+<nav class="navbar navbar-fixed-top  nels-sub-menu" role="navigation">
+
+    <div>
+        <button type="button" class="btn btn-link" ng-click="$ctrl.add()" ng-show="false">
+            <span class="glyphicon glyphicon-plus"></span>&nbsp;Add
+        </button>
+
+        <div class="btn-group" uib-dropdown is-open="{{$ctrl.projectsselectionMenu}}"
+             style="margin-left: 5px;">
+            <button id="Button3" type="button" class="btn btn-link"
+                    uib-dropdown-toggle ng-disabled="disabled"
+                    ng-click="$ctrl.projectsselectionMenu = !$ctrl.projectsselectionMenu">
+                <span aria-hidden="true" class="glyphicon glyphicon-check"></span>&nbsp;Selection<span
+                    class="badge" style="margin-left: 5px">
+					{{$ctrl.selectedProjects.length}}</span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                aria-labelledby="single-button">
+
+                <li ng-class="{'disabled': $ctrl.selectedProjects.length ==0}"><a
+                        type="button" class="btn btn-link"
+                        ng-click="$ctrl.selectedProjects.length ==0  || $ctrl.deleteSelected()">
+                        <span
+                                class="glyphicon glyphicon-remove"></span>&nbsp;Delete</a>
+                </li>
+                <li class="divider"></li>
+                <li><a type="button" class="btn btn-link"
+                       ng-click="selectionService.selectAll($ctrl.projects,$ctrl.selectedProjects)">
+                    <span class="glyphicon glyphicon-ok"></span>&nbsp;Select All</a>
+                </li>
+                <li ng-class="{'disabled': $ctrl.selectedProjects.length ==0}"><a
+                        type="button" class="btn btn-link"
+                        ng-click="selectionService.clearSelection($ctrl.selectedProjects)">
+                        <span
+                                class="glyphicon glyphicon-refresh"></span>&nbsp;Clear Selection</a>
+                </li>
+            </ul>
+        </div>
+
+        <input type="text"
+               data-ng-model="$ctrl.searchText"
+               placeholder="Search Text"
+               ng-change="$ctrl.search()"
+               ng-model-options="{debounce:500}"
+        />
+
+    </div>
+</nav>
+
+
+<div style="background-color: #efefef;margin-top:50px;display:none;" class="container-fluid">
+    <h2>Sample Navigation</h2>
+    <div class="form-group">
+        <label class="control-label">Projects</label> <select
+            ng-model="$ctrl.selectedProject"
+            data-ng-options="project.id as project.name for project in $ctrl.projects"
+            data-ng-change="$ctrl.projectChanged()" class="form-control">
+    </select>
+
+    </div>
+    <div class="form-group" ng-show="$ctrl.datasets.length > 0">
+        <label class="control-label">Datasets</label> <select
+            ng-model="$ctrl.selectedDataset"
+            data-ng-options="dataset.id as dataset.name + ' | ' + dataset.description + ' | ' + dataset.creation_date  for dataset in $ctrl.datasets"
+            data-ng-change="$ctrl.DatasetChanged()" class="form-control">
+    </select>
+
+    </div>
+
+    <div class="form-group" ng-show="$ctrl.subtypes.length > 0">
+        <label class="control-label">Subtypes</label>
+        <ul ng-repeat="subtype in $ctrl.subtypes">
+            <li><a ng-href="{{subtype.url}}" class="nels-clickable"
+                   target="_blank">{{subtype.type}} ({{subtype.size | bytes}})</a> &nbsp; <a class="nels-clickable"
+                                                                                             ng-click="$ctrl.getMetaData(subtype)"
+            >
+                <span class="glyphicon glyphicon-save-file"> META Data</span></a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container-fluid" style="margin-top: 50px">
+    <div class="alert {{nelsAlertService.alert.css}} pull-right"
+         style="margin-top: 3px;" ng-show="nelsAlertService.alert.show">
+        <button type="button" class="close"
+                ng-click="nelsAlertService.alert.show = !nelsAlertService.alert.show"><span
+                class="glyphicon glyphicon-remove"></span>
+        </button>
+        <strong>{{nelsAlertService.alert.status}}</strong>
+        {{nelsAlertService.alert.message}}&nbsp;
+    </div>
+
+
+    <h2>Sbi Projects</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th><a ng-click="$ctrl.sortBy('name')" class="nels-clickable">Name</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'name'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th><a ng-click="$ctrl.sortBy('contact_person')" class="nels-clickable">Contact Person</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'contact_person'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th><a ng-click="$ctrl.sortBy('disk_usage')" class="nels-clickable">Disk usage</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'disk_usage'"
+                      ng-class="{reverse: $ctrl.reverse}"></span>
+            </th>
+            <th><a ng-click="$ctrl.sortBy('creation_date')" class="nels-clickable">Creation Date</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'creation_date'"
+                      ng-class="{reverse: $ctrl.reverse}"></span>
+            </th>
+            <th>Quota
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'reserved_quota'"
+                      ng-class="{reverse: reverse}"></span></th>
+            <th class="col-sm-2"><a ng-click="$ctrl.sortBy('utilization')" class="nels-clickable">Quota
+                Utilization</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'utilization'"
+                      ng-class="{reverse: $ctrl.reverse}"></span>
+            </th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr data-ng-repeat="project in $ctrl.projects  | filter:filterText | orderBy:sortColumn:reverse"
+            ng-click="selectionService.toggleItem($ctrl.selectedProjects,project)"
+            class="nels-clickable {{selectionService.selectionCss($ctrl.selectedProjects,project)}}">
+            <td>
+                <a ng-click="$ctrl.getProjectDetail(project)"><span
+                        ng-bind-html="project.name | highlight :$ctrl.searchText"></span></a><br/>
+                <small class="text-muted"><span
+                        ng-bind-html="$ctrl.getDescription(project.description) | highlight :$ctrl.searchText"></span>
+                </small>
+            </td>
+            <td><span ng-bind-html="project.contact_person | highlight :$ctrl.searchText"></span></td>
+            <td>
+                <div ng-if="project.disk_usage > 0 ">
+                    {{project.disk_usage | bytes}} <br/>
+                    <small class="text-muted">{{project.disk_usage_last_update | date : 'dd MMM yyyy'}}</small>
+                </div>
+                <div ng-if="project.disk_usage <= 0 ">
+                    -
+                </div>
+
+            </td>
+            <td>{{project.creation_date | customizeDate | date : 'dd MMM yyyy'}}</td>
+            <td>
+                <div ng-show="project.reserved_quota >0 ">
+                    <span ng-bind-html="$ctrl.getDescription(project.quota_name) | highlight :$ctrl.searchText"></span>
+                    <br/>
+                    <small class="text-muted">{{project.reserved_quota - project.remaining_quota | bytes}} /
+                        {{project.reserved_quota | bytes}}
+                    </small>
+                    <br/>
+                </div>
+
+            </td>
+            <td>
+                <uib-progressbar value="$ctrl.getPercentage(project)"
+                                 type="{{$ctrl.getPercentageCss(project)}}"></uib-progressbar>
+            </td>
+
+        </tr>
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <pagination get-previous-class="$ctrl.getPreviousClass()"
+                            previous-page="$ctrl.previousPage()"
+                            get-pages="$ctrl.getPages()"
+                            get-page-class="$ctrl.getPageClass(value)"
+                            set-current-page="$ctrl.setCurrentPage(value)"
+                            get-next-class="$ctrl.getNextClass()"
+                            next-page="$ctrl.nextPage()"
+                            start-number="$ctrl.startNumber()"
+                            end-number="$ctrl.endNumber()"
+                            get-total-size="$ctrl.getTotalSize()"
+                            change="$ctrl.change(value)"
+                            first-page="$ctrl.firstPage()"
+                            last-page="$ctrl.lastPage()"></pagination>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+

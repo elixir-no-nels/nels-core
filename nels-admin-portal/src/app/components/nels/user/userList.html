@@ -1,0 +1,103 @@
+<nav class="navbar navbar-fixed-top  nels-sub-menu" role="navigation">
+
+    <div style="padding-left:10px;">
+
+        <input type="text"
+               data-ng-model="$ctrl.searchText"
+               placeholder="Search Text"
+               ng-change="$ctrl.search()"
+               ng-model-options="{debounce:500}"
+        />
+
+
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 50px">
+    <h2>Users</h2>
+
+
+    <div data-ng-show="$ctrl.users.length==0">No records</div>
+    <div class="alert {{nelsAlertService.alert.css}} pull-right"
+         style="margin-top: 3px;" ng-show="nelsAlertService.alert.show">
+        <button type="button" class="close"
+                ng-click="nelsAlertService.alert.show = !nelsAlertService.alert.show"><span
+                class="glyphicon glyphicon-remove"></span>
+        </button>
+        <strong>{{nelsAlertService.alert.status}}</strong>
+        {{nelsAlertService.alert.message}}&nbsp;
+    </div>
+    <table class="table table-striped" data-ng-show="$ctrl.users.length >0">
+        <thead>
+        <tr>
+            <th><a ng-click="$ctrl.sortBy('id')" class="nels-clickable">#</a> <span
+                    class="sortorder" ng-show="$ctrl.sortColumn === 'id'"
+                    ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th><a ng-click="$ctrl.sortBy('name')" class="nels-clickable">Name</a>
+                <span class="sortorder" ng-show="$ctrl.sortColumn === 'name'"
+                      ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th><a ng-click="$ctrl.sortBy('registrationdate')"
+                   class="nels-clickable">Reg. Date</a> <span class="sortorder"
+                                                              ng-show="$ctrl.sortColumn === 'registrationdate'"
+                                                              ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th><a ng-click="$ctrl.sortBy('disk_usage')"
+                   class="nels-clickable">Personal Disk</a><span class="sortorder"
+                                                                 ng-show="$ctrl.sortColumn === 'disk_usage'"
+                                                                 ng-class="{reverse: $ctrl.reverse}"></span></th>
+            <th>SBI profile</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="user in $ctrl.users  | orderBy:sortColumn:reverse"
+            ng-click="$ctrl.toggleItemSelection(user)"
+            class=" {{$ctrl.selectionCss(user)}}">
+            <td>{{user.id}}</td>
+            <td><span ng-bind-html="user.name | highlight :$ctrl.searchText"></span> <br/>
+                <small class="text-muted">Username: <span
+                        ng-bind-html="user.idpusername | highlight :$ctrl.searchText"></span>| Email: <span
+                        ng-bind-html="user.email | highlight :$ctrl.searchText"/>
+                </small>
+            </td>
+            <td>{{user.registrationdate | date : 'dd MMM yyyy'}}</td>
+            <td>
+                <div ng-if="user.disk_usage >0 ">
+                    {{user.disk_usage | bytes}} <br/>
+                    <small class="text-muted">{{user.stat_time | date : 'dd MMM yyyy'}}</small>
+                </div>
+                <div ng-if="user.disk_usage <= 0 ">
+                    -
+                </div>
+            </td>
+            <td><a ng-if="!user.hasSbiProfile" class=" btn-link"
+                   ng-click="$ctrl.createSbiProfile(user);$event.stopPropagation()"
+                   uib-tooltip="Create Storebioinfo Profile">
+                <span class="glyphicon glyphicon-plus text-danger"></span>
+            </a>
+                <a ng-if="user.hasSbiProfile" style="cursor:default;">
+                    <span class="glyphicon glyphicon-ok text-success"></span>
+                </a>
+
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <pagination get-previous-class="$ctrl.getPreviousClass()"
+                            previous-page="$ctrl.previousPage()"
+                            get-pages="$ctrl.getPages()"
+                            get-page-class="$ctrl.getPageClass(value)"
+                            set-current-page="$ctrl.setCurrentPage(value)"
+                            get-next-class="$ctrl.getNextClass()"
+                            next-page="$ctrl.nextPage()"
+                            start-number="$ctrl.startNumber()"
+                            end-number="$ctrl.endNumber()"
+                            get-total-size="$ctrl.getTotalSize()"
+                            change="$ctrl.change(value)"
+                            first-page="$ctrl.firstPage()"
+                            last-page="$ctrl.lastPage()"></pagination>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

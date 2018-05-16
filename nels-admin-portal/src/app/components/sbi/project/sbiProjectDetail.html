@@ -1,0 +1,127 @@
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <h3 style="word-wrap:break-word" class="text-primary"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;{{$ctrl.project.name}}
+        </h3>
+        <p><label> Contact Person:</label> <br/>{{$ctrl.project.contact_person}}</p>
+        <p><label> Contact Email:</label> <br/>{{$ctrl.project.contact_email}}</p>
+        <p><label> Contact Affiliation:</label> <br/>{{$ctrl.project.contact_affiliation}}</p>
+        <p><label> Creation date:</label><br/>{{$ctrl.project.creation_date | date : 'dd MMM yyyy'}}</p>
+        <p><label> Description:</label><br/>{{$ctrl.project.description}}</p>
+        <p><label> Disk Usage:</label><br/>{{$ctrl.project.disk_usage | bytes}}</p>
+        <p><label> Quota:</label><br/>
+            {{$ctrl.project.quota_name}}
+            <small class="text-muted">({{$ctrl.project.reserved_quota - $ctrl.project.remaining_quota | bytes}} /
+                {{$ctrl.project.reserved_quota | bytes}})
+            </small>
+        </p>
+
+        <hr/>
+        <ul class="nav nav-sidebar">
+            <li class="nels-clickable">
+                <a type="button" ng-click="$ctrl.editProject()">
+                    <span class="glyphicon glyphicon-edit">&nbsp;Edit</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="page-content-wrapper">
+
+        <div class="alert {{nelsAlertService.alert.css}} pull-right"
+             style="margin-top: 3px;" ng-show="nelsAlertService.alert.show">
+            <button type="button" class="close"
+                    ng-click="nelsAlertService.alert.show = !nelsAlertService.alert.show"><span
+                    class="glyphicon glyphicon-remove"></span>
+            </button>
+            <strong>{{nelsAlertService.alert.status}}</strong>
+            {{nelsAlertService.alert.message}}&nbsp;
+        </div>
+        <uib-tabset active="active">
+            <uib-tab>
+                <uib-tab-heading>
+                    <span class="glyphicon glyphicon-user">&nbsp;Project Members</span>
+                </uib-tab-heading>
+                <nav class="nav" style="background-color: #efefef;">
+
+
+                    <div class="btn-group" uib-dropdown>
+                        <button type="button" class="btn btn-link"
+                                uib-dropdown-toggle>
+                            <span class="glyphicon glyphicon-plus">Add</span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                            aria-labelledby="single-button" style="min-width: 120px">
+                            <li>
+                                <a type="button" class="btn btn-link" ng-click="$ctrl.addUser()">
+                                    <span class="glyphicon glyphicon-ok">&nbsp;User</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a type="button" class="btn btn-link" ng-click="$ctrl.addAdmin()">
+                                    <span class="glyphicon glyphicon-ok">&nbsp;Admin</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="btn-group" uib-dropdown>
+                        <button id="Button3" type="button" class="btn btn-link"
+                                uib-dropdown-toggle ng-disabled="disabled"
+                                ng-click="selectionMenu = !selectionMenu">
+                            <span class="glyphicon glyphicon-check">Selection</span>
+                            <span class="badge" style="margin-left: 5px">{{$ctrl.selectedMembers.length}}</span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                            aria-labelledby="single-button">
+
+                            <li ng-class="{'disabled': $ctrl.selectedMembers.length ==0}">
+                                <a
+                                        type="button" class="btn btn-link"
+                                        ng-click="$ctrl.selectedMembers.length == 0  || $ctrl.deleteSelected()">
+                                    <span class="glyphicon glyphicon-remove">&nbsp;Remove Members</span>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a type="button" class="btn btn-link"
+                                   ng-click="$ctrl.selectAll()">
+                                    <span class="glyphicon glyphicon-ok">&nbsp;Select All</span>
+                                </a>
+                            </li>
+                            <li ng-class="{'disabled': $ctrl.selectedMembers.length ==0}">
+                                <a type="button" class="btn btn-link" ng-click="$ctrl.clearSelection()">
+                                    <span class="glyphicon glyphicon-refresh">&nbsp;Clear Selection</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+
+                </nav>
+                <table class="table table-striped" style="margin-bottom: 0px">
+                    <thead>
+                    <tr>
+                        <th class="col-sm-6"><a ng-click="$ctrl.sortBy('name')" class="nels-clickable">Name</a>
+                            <span class="sortorder" ng-show="$ctrl.sortColumn === 'name'"
+                                  ng-class="{reverse: $ctrl.reverse}"></span></th>
+                        <th class="col-sm-4"><a ng-click="$ctrl.sortBy('role')" class="nels-clickable">Role</a>
+                            <span class="sortorder" ng-show="$ctrl.sortColumn === 'role'"
+                                  ng-class="{reverse: $ctrl.reverse}"></span></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="nels-clickable {{$ctrl.selectionCss(user)}}"
+                        data-ng-repeat="user in $ctrl.members  | orderBy:$ctrl.sortColumn:$ctrl.reverse"
+                        ng-click="$ctrl.toggleItemSelection(user)">
+                        <td>{{user.name}}</td>
+                        <td>{{user.role}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>
+
