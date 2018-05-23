@@ -1,3 +1,5 @@
+DOI of the archived version 2018-05-16: [![10.5281/zenodo.1251639](https://zenodo.org/badge/DOI/10.5281/zenodo.1251639.svg)](https://doi.org/10.5281/zenodo.1251639)
+
 Introduction
 ===
 This repository consists of core components that are used for building the [NeLS](https://nels.bioinfo.no) infrastructure.
