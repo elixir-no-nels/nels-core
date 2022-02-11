@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <nels.vertx.commons-version>1.0</nels.vertx.commons-version>
-        <vertx.version>3.4.2</vertx.version>
+        <vertx.version>3.9.4</vertx.version>
         <nels.commons-version>1.0</nels.commons-version>
     </properties>
 
